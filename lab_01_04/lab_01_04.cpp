@@ -66,7 +66,7 @@ void CopyFileWithReplace(std::ifstream& input, std::ofstream& output, std::optio
 	}
 }
 
-int CopyFileWithReplaceWrapper(std::optional<Args>& args, bool& retflag)
+int CopyFileWithReplaceWrapper(std::optional<Args>& args)
 {
 	std::ifstream input;
 	std::ofstream output;
@@ -98,8 +98,8 @@ int CopyFileWithReplaceWrapper(std::optional<Args>& args, bool& retflag)
 		std::cout << "Failed to write data to output file\n";
 		return 1;
 	}
-	retflag = false;
-	return {};
+
+	return 0;
 }
 
 int main(int argc, char* argv[])
@@ -110,9 +110,5 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	bool retflag = true;
-	int retval = CopyFileWithReplaceWrapper(args, retflag);
-	if (retflag) return retval;
-
-	return 0;
+	return CopyFileWithReplaceWrapper(args);
 }
