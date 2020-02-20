@@ -27,31 +27,6 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
-struct FilesArgs
-{
-	std::ifstream input;
-	std::ofstream output;
-};
-
-std::optional<FilesArgs> InitInputOutputFiles(const std::optional<Args>& args)
-{
-	FilesArgs filesArgs;
-	filesArgs.input.open(args->inputFileName);
-	if (!filesArgs.input.is_open())
-	{
-		std::cout << "Failed to open '" << args->inputFileName << "' for reading\n";
-		return std::nullopt;
-	}
-
-	filesArgs.output.open(args->outputFileName);
-	if (!filesArgs.output.is_open())
-	{
-		std::cout << "Failed to open '" << args->outputFileName << "' for writing\n";
-		return std::nullopt;
-	}
-	return filesArgs;
-}
-
 std::string ReplaceString(const std::string& subject,
 	const std::string& searchString, const std::string& replacementString)
 {
@@ -91,6 +66,42 @@ void CopyFileWithReplace(std::ifstream& input, std::ofstream& output, std::optio
 	}
 }
 
+int CopyFileWithReplaceWrapper(std::optional<Args>& args, bool& retflag)
+{
+	std::ifstream input;
+	std::ofstream output;
+
+	input.open(args->inputFileName);
+	if (!input.is_open())
+	{
+		std::cout << "Failed to open '" << args->inputFileName << "' for reading\n";
+		return 1;
+	}
+
+	output.open(args->outputFileName);
+	if (!output.is_open())
+	{
+		std::cout << "Failed to open '" << args->outputFileName << "' for writing\n";
+		return 1;
+	}
+
+	CopyFileWithReplace(input, output, args);
+
+	if (input.bad())
+	{
+		std::cout << "Failed to read data from input file\n";
+		return 1;
+	}
+
+	if (!output.flush()) // Если не удалось сбросить данные на диск
+	{
+		std::cout << "Failed to write data to output file\n";
+		return 1;
+	}
+	retflag = false;
+	return {};
+}
+
 int main(int argc, char* argv[])
 {
 	auto args = ParseArgs(argc, argv);
@@ -99,25 +110,9 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	auto filesArgs = InitInputOutputFiles(args);
-	if (!filesArgs)
-	{
-		return 1;
-	}
-
-	CopyFileWithReplace(filesArgs->input, filesArgs->output, args);
-
-	if (filesArgs->input.bad())
-	{
-		std::cout << "Failed to read data from input file\n";
-		return 1;
-	}
-
-	if (!filesArgs->output.flush()) // Если не удалось сбросить данные на диск
-	{
-		std::cout << "Failed to write data to output file\n";
-		return 1;
-	}
+	bool retflag = true;
+	int retval = CopyFileWithReplaceWrapper(args, retflag);
+	if (retflag) return retval;
 
 	return 0;
 }
