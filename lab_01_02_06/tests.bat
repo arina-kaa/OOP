@@ -37,7 +37,7 @@ echo Test 5 passed
 if NOT ERRORLEVEL 1 goto err
 echo Test 6 passed
 
-REM Число не входит в диапазон нотации
+REM Число не входит в диапазон допустимых значений нотации
 %PROGRAM% 2 2 A > nul
 if NOT ERRORLEVEL 1 goto err
 echo Test 7 passed

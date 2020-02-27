@@ -144,7 +144,7 @@ bool Radix(const int& value, const int& destinationNotation)
 	std::string resultStr = IntToString(value, destinationNotation, wasError);
 	if (!wasError)
 	{
-		std::cout << "Result: " << resultStr << "\n";
+		std::cout << resultStr << "\n";
 	}
 
 	return !wasError;
