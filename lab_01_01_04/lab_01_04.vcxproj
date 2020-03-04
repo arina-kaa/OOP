@@ -166,9 +166,6 @@
     <ClCompile Include="lab_01_04.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="lab_01_04.h" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="input.txt" />
     <Text Include="input_empty.txt" />
     <Text Include="input_with_replace.txt" />
