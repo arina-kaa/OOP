@@ -3,8 +3,16 @@
 #include <optional>
 #include <string>
 
-int CharToDigit(const char& ch, const int& radix, bool& wasError)
+bool IsRadixValid(const int radix)
 {
+	const int MIN_ALLOWED_NOTATION = 2;
+	const int MAX_ALLOWED_NOTATION = 36;
+	return radix >= MIN_ALLOWED_NOTATION && radix <= MAX_ALLOWED_NOTATION;
+}
+
+int CharToDigit(const char ch, const int radix, bool& wasError)
+{
+	wasError = false;
 	int digit = -1;
 	if (ch >= '0' && ch <= '9')
 	{
@@ -26,8 +34,16 @@ int CharToDigit(const char& ch, const int& radix, bool& wasError)
 	return (int)digit;
 }
 
-char DigitToChar(const int& digit, const int& radix, bool& wasError)
+char DigitToChar(const int digit, const int radix, bool& wasError)
 {
+	wasError = false;
+	if (!IsRadixValid(radix))
+	{
+		wasError = true;
+		std::cout << "Notations must be between 2 and 36 value.\n";
+		return '\0';
+	}
+
 	char result = '\0';
 	if (digit >= 0 && digit <= 9)
 	{
@@ -40,23 +56,30 @@ char DigitToChar(const int& digit, const int& radix, bool& wasError)
 	if (result == '\0')
 	{
 		wasError = true;
+		std::cout << "Undefined symbol in value!\n";
 	}
 	return result;
 }
 
-int StringToInt(const std::string& str, const int& radix, bool& wasError)
+int StringToInt(const std::string& str, const int radix, bool& wasError)
 {
-	unsigned int result = 0;
+	wasError = false;
+	int result = 0;
 	const int sign = (str[0] == '-') ? -1 : 1;
-	const int firstDigitPosition = (sign == -1) ? 1 : 0;
+	const int firstDigitPosition = (str[0] == '+' || str[0] == '-') ? 1 : 0;
 	
-	for (size_t i = firstDigitPosition; i < str.length(); ++i)
+	for (size_t i = firstDigitPosition; i < str.length(); i++)
 	{
-		unsigned int digit = CharToDigit(str[i], radix, wasError);
-		// checking limits
-		if (result <= (INT_MAX - digit + firstDigitPosition) / radix)
+		int digit = CharToDigit(str[i], radix, wasError);
+		if (wasError)
 		{
-			result = radix * result + digit;
+			return 0;
+		}
+		// checking limits
+		int a = (INT_MAX - digit) / radix;
+		if (result <= (INT_MAX - digit) / radix)
+		{
+			result = result * radix + digit;
 		}
 		else
 		{
@@ -68,8 +91,16 @@ int StringToInt(const std::string& str, const int& radix, bool& wasError)
 	return (int)sign * result;
 }
 
-std::string IntToString(int n, int radix, bool& wasError)
+std::string IntToString(const int n, const int radix, bool& wasError)
 {
+	wasError = false;
+	if (!IsRadixValid(radix))
+	{
+		wasError = true;
+		std::cout << "Notations must be between 2 and 36 value.\n";
+		return "";
+	}
+
 	std::string resultStr = "";
 	bool isNegative = n < 0; // save sign of numbers
 	unsigned int number = abs(n);
@@ -85,6 +116,11 @@ std::string IntToString(int n, int radix, bool& wasError)
 		remainder = number % radix;
 		number = number / radix;
 		char nextCh = DigitToChar(remainder, radix, wasError);
+		if (wasError)
+		{
+			wasError = true;
+			return "";
+		}
 		resultStr.push_back(nextCh);
 	};
 	if (isNegative) resultStr.push_back('-');
@@ -93,18 +129,11 @@ std::string IntToString(int n, int radix, bool& wasError)
 	return resultStr;
 }
 
-bool IsValidNotation(const int& notation)
-{
-	const int MIN_ALLOWED_NOTATION = 2;
-	const int MAX_ALLOWED_NOTATION = 36;
-	return notation >= MIN_ALLOWED_NOTATION && notation <= MAX_ALLOWED_NOTATION;
-}
-
 struct Args
 {
 	int sourceNotation;
 	int destinationNotation;
-	int value;
+	std::string value;
 };
 
 std::optional<Args> ParseArgs(int argc, char* argv[])
@@ -119,32 +148,46 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	}
 
 	Args args;
+
 	args.sourceNotation = StringToInt(argv[1], COMMON_NOTATION, wasError);
+	if (!IsRadixValid(args.sourceNotation) || wasError)
+	{
+		std::cout << "Source notations must be between 2 and 36 value.\n";
+		return std::nullopt;
+	}
+
 	args.destinationNotation = StringToInt(argv[2], COMMON_NOTATION, wasError);
-	if (!IsValidNotation(args.sourceNotation) || !IsValidNotation(args.destinationNotation))
+	if (!IsRadixValid(args.destinationNotation) || wasError)
 	{
-		std::cout << "Notations must be between 2 and 36 value.\n";
+		std::cout << "Destination notations must be between 2 and 36 value.\n";
 		return std::nullopt;
 	}
-	args.value = StringToInt(argv[3], args.sourceNotation, wasError);
-	if (wasError)
-	{
-		std::cout << "Invalid arguments values.\n";
-		return std::nullopt;
-	}
+
+	args.value = argv[3];
 
 	return args;
 }
 
 
 
-bool Radix(const int& value, const int& destinationNotation)
+std::string GetConvertedNumber(const std::string& value, const int sourceNotation, 
+	const int destinationNotation, bool& wasError)
+{
+	wasError = false;
+	const int numberToConvert = StringToInt(value, sourceNotation, wasError);
+	std::string convertedNumber = (!wasError) ? IntToString(numberToConvert, destinationNotation, wasError) : "";
+
+	return convertedNumber;
+}
+
+bool ConvertNumber(const std::string& value, const int sourceNotation,
+	const int destinationNotation)
 {
 	bool wasError = false;
-	std::string resultStr = IntToString(value, destinationNotation, wasError);
+	std::string convertedNumber = GetConvertedNumber(value, sourceNotation, destinationNotation, wasError);
 	if (!wasError)
 	{
-		std::cout << resultStr << "\n";
+		std::cout << convertedNumber << "\n";
 	}
 
 	return !wasError;
@@ -158,7 +201,7 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	bool result = Radix(args->value, args->destinationNotation);
+	bool result = ConvertNumber(args->value, args->sourceNotation, args->destinationNotation);
 
 	return (result) ? 0 : 1;
 }
