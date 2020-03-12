@@ -101,11 +101,11 @@ if ERRORLEVEL 1 goto err
 echo Test %COUNTER% passed
 set /A COUNTER=%COUNTER%+1
 
-%PROGRAM% pack "D:\IPS\OOP\lab_01_04_01\Debug\lab_01_04_01.exe" "%TEMP%\output_exe.exe"
+%PROGRAM% pack %PROGRAM% "%TEMP%\output_exe.exe"
 if ERRORLEVEL 1 goto err
 %PROGRAM% unpack "%TEMP%\output_exe.exe" "%TEMP%\output.exe"
 if ERRORLEVEL 1 goto err
-fc /B "%TEMP%\output.exe" "D:\IPS\OOP\lab_01_04_01\Debug\lab_01_04_01.exe" > nul
+fc /B "%TEMP%\output.exe" %PROGRAM% > nul
 if ERRORLEVEL 1 goto err
 echo Test %COUNTER% passed
 set /A COUNTER=%COUNTER%+1
