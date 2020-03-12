@@ -2,6 +2,7 @@
 #include <fstream>
 #include <optional>
 #include <string>
+#include <functional>
 
 const int MAX_LENGTH = 255;
 
@@ -58,7 +59,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
-void PrintPackResult(std::ostream& output, const int symbolCount, const char symbol)
+void FlushPackResult(std::ostream& output, const int symbolCount, const char symbol)
 {
 	output << (char)symbolCount << symbol;
 }
@@ -83,7 +84,7 @@ bool PackFile(std::istream& input, std::ostream& output)
 		
 		if (originalSymbol != currentSymbol || originalSymbolCount == MAX_LENGTH)
 		{
-			PrintPackResult(output, originalSymbolCount, originalSymbol);
+			FlushPackResult(output, originalSymbolCount, originalSymbol);
 			originalSymbol = currentSymbol;
 			originalSymbolCount = (originalSymbolCount == MAX_LENGTH) ? 0 : 1;
 		}
@@ -91,13 +92,13 @@ bool PackFile(std::istream& input, std::ostream& output)
 
 	if (originalSymbolCount != 0)
 	{
-		PrintPackResult(output, originalSymbolCount, originalSymbol);
+		FlushPackResult(output, originalSymbolCount, originalSymbol);
 	}
 
 	return true;
 }
 
-void PrintUnpackResult(std::ostream& output, const int symbolCount, const char symbol)
+void FlushUnpackResult(std::ostream& output, const int symbolCount, const char symbol)
 {
 	for (size_t i = 0; i < symbolCount; i++)
 	{
@@ -119,7 +120,7 @@ bool UnpackFile(std::istream& input, std::ostream& output)
 			{
 				return false;
 			}
-			PrintUnpackResult(output, symbolCount, symbol);
+			FlushUnpackResult(output, symbolCount, symbol);
 		}
 		else
 		{
@@ -131,7 +132,8 @@ bool UnpackFile(std::istream& input, std::ostream& output)
 	return true;
 }
 
-bool HandleFileByMode(const Mode currentMode, const std::string& inputFileName, std::string& outputFileName)
+using Transformer = std::function<bool(std::istream& input, std::ostream& output)>;
+bool TransformFile(const std::string& inputFileName, const std::string& outputFileName, const Transformer& transformer)
 {
 	bool result = true;
 	std::ifstream input;
@@ -151,17 +153,7 @@ bool HandleFileByMode(const Mode currentMode, const std::string& inputFileName, 
 		result = false;
 	}
 
-	switch (currentMode)
-	{
-	case Mode::PACK_MODE:
-		result = PackFile(input, output);
-		break;
-	case Mode::UNPACK_MODE:
-		result = UnpackFile(input, output);
-		break;
-	default:
-		break;
-	}
+	result = transformer(input, output);
 
 	if (input.bad())
 	{
@@ -186,7 +178,19 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	bool result = HandleFileByMode(args->currentMode, args->inputFileName, args->outputFileName);
+	bool result = true;
+
+	switch (args->currentMode)
+	{
+	case Mode::PACK_MODE:
+		result = TransformFile(args->inputFileName, args->outputFileName, PackFile);
+		break;
+	case Mode::UNPACK_MODE:
+		result = TransformFile(args->inputFileName, args->outputFileName, UnpackFile);
+		break;
+	default:
+		break;
+	}
 
 	return (result) ? 0 : 1;
 }
