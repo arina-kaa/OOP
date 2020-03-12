@@ -5,7 +5,7 @@
 
 const int MAX_LENGTH = 255;
 
-enum class mode {
+enum class Mode {
 	UNDEFINED_MODE,
 	PACK_MODE,
 	UNPACK_MODE
@@ -13,21 +13,21 @@ enum class mode {
 
 struct Args
 {
-	mode currentMode = mode::UNDEFINED_MODE;
+	Mode currentMode = Mode::UNDEFINED_MODE;
 	std::string inputFileName;
 	std::string outputFileName;
 };
 
-mode getCurrentMode(const std::string& modeStr)
+Mode getCurrentMode(const std::string& modeStr)
 {
-	mode currentMode;
+	Mode currentMode = Mode::UNDEFINED_MODE;
 	if (modeStr == "pack") 
 	{ 
-		currentMode = mode::PACK_MODE;
+		currentMode = Mode::PACK_MODE;
 	}
 	else if (modeStr == "unpack") 
 	{ 
-		currentMode = mode::UNPACK_MODE;
+		currentMode = Mode::UNPACK_MODE;
 	}
 
 	return currentMode;
@@ -46,7 +46,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	Args args;
 
 	args.currentMode = getCurrentMode(argv[1]);
-	if (args.currentMode == mode::UNDEFINED_MODE)
+	if (args.currentMode == Mode::UNDEFINED_MODE)
 	{
 		std::cout << "Invalid mode.\n"
 			<< "Usage: pack or unpack.\n";
@@ -131,7 +131,7 @@ bool UnpackFile(std::istream& input, std::ostream& output)
 	return true;
 }
 
-bool HandleFileByMode(const mode currentMode, const std::string& inputFileName, std::string& outputFileName)
+bool HandleFileByMode(const Mode currentMode, const std::string& inputFileName, std::string& outputFileName)
 {
 	bool result = true;
 	std::ifstream input;
@@ -153,10 +153,10 @@ bool HandleFileByMode(const mode currentMode, const std::string& inputFileName, 
 
 	switch (currentMode)
 	{
-	case mode::PACK_MODE:
+	case Mode::PACK_MODE:
 		result = PackFile(input, output);
 		break;
-	case mode::UNPACK_MODE:
+	case Mode::UNPACK_MODE:
 		result = UnpackFile(input, output);
 		break;
 	default:
