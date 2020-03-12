@@ -13,14 +13,14 @@ enum class mode {
 
 struct Args
 {
-	mode currentMode;
+	mode currentMode = mode::UNDEFINED_MODE;
 	std::string inputFileName;
 	std::string outputFileName;
 };
 
 mode getCurrentMode(const std::string& modeStr)
 {
-	mode currentMode = mode::UNDEFINED_MODE;
+	mode currentMode;
 	if (modeStr == "pack") 
 	{ 
 		currentMode = mode::PACK_MODE;
@@ -71,11 +71,6 @@ bool PackFile(std::istream& input, std::ostream& output)
 
 	while (input.get(currentSymbol))
 	{
-		if (currentSymbol == ' ')
-		{
-			continue;
-		}
-
 		if (originalSymbolCount == 0)
 		{
 			originalSymbol = currentSymbol;
@@ -120,6 +115,10 @@ bool UnpackFile(std::istream& input, std::ostream& output)
 		if (input.get(symbol))
 		{
 			symbolCount = static_cast<unsigned char>(symbolCountCh);
+			if (symbolCount == 0)
+			{
+				return false;
+			}
 			PrintUnpackResult(output, symbolCount, symbol);
 		}
 		else
@@ -138,14 +137,14 @@ bool HandleFileByMode(const mode currentMode, const std::string& inputFileName, 
 	std::ifstream input;
 	std::ofstream output;
 
-	input.open(inputFileName);
+	input.open(inputFileName, std::ios::binary | std::ios::in);
 	if (!input.is_open())
 	{
 		std::cout << "Failed to open '" << inputFileName << "' for reading\n";
 		result = false;
 	}
 
-	output.open(outputFileName);
+	output.open(outputFileName, std::ios::binary | std::ios::out);
 	if (!output.is_open())
 	{
 		std::cout << "Failed to open '" << outputFileName << "' for writing\n";
