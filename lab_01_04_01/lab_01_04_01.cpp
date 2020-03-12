@@ -5,7 +5,7 @@
 
 const int MAX_LENGTH = 255;
 
-enum mode {
+enum class mode {
 	UNDEFINED_MODE,
 	PACK_MODE,
 	UNPACK_MODE
@@ -20,14 +20,14 @@ struct Args
 
 mode getCurrentMode(const std::string& modeStr)
 {
-	mode currentMode = UNDEFINED_MODE;
+	mode currentMode = mode::UNDEFINED_MODE;
 	if (modeStr == "pack") 
 	{ 
-		currentMode = PACK_MODE; 
+		currentMode = mode::PACK_MODE;
 	}
 	else if (modeStr == "unpack") 
 	{ 
-		currentMode = UNPACK_MODE; 
+		currentMode = mode::UNPACK_MODE;
 	}
 
 	return currentMode;
@@ -46,7 +46,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	Args args;
 
 	args.currentMode = getCurrentMode(argv[1]);
-	if (args.currentMode == UNDEFINED_MODE)
+	if (args.currentMode == mode::UNDEFINED_MODE)
 	{
 		std::cout << "Invalid mode.\n"
 			<< "Usage: pack or unpack.\n";
@@ -63,7 +63,7 @@ void PrintPackResult(std::ostream& output, const int symbolCount, const char sym
 	output << (char)symbolCount << symbol;
 }
 
-void PackFile(std::istream& input, std::ostream& output)
+bool PackFile(std::istream& input, std::ostream& output)
 {
 	char currentSymbol;
 	char originalSymbol;
@@ -71,6 +71,11 @@ void PackFile(std::istream& input, std::ostream& output)
 
 	while (input.get(currentSymbol))
 	{
+		if (currentSymbol == ' ')
+		{
+			continue;
+		}
+
 		if (originalSymbolCount == 0)
 		{
 			originalSymbol = currentSymbol;
@@ -93,11 +98,38 @@ void PackFile(std::istream& input, std::ostream& output)
 	{
 		PrintPackResult(output, originalSymbolCount, originalSymbol);
 	}
+
+	return true;
 }
 
-void UnpackFile(const std::istream& input, std::ostream& output)
+void PrintUnpackResult(std::ostream& output, const int symbolCount, const char symbol)
 {
+	for (size_t i = 0; i < symbolCount; i++)
+	{
+		output << symbol;
+	}
+}
 
+bool UnpackFile(std::istream& input, std::ostream& output)
+{
+	char symbolCountCh, symbol;
+	int symbolCount;
+
+	while (input.get(symbolCountCh))
+	{
+		if (input.get(symbol))
+		{
+			symbolCount = static_cast<unsigned char>(symbolCountCh);
+			PrintUnpackResult(output, symbolCount, symbol);
+		}
+		else
+		{
+			std::cout << "Damaged input file\n";
+			return false;
+		}
+	}
+
+	return true;
 }
 
 bool HandleFileByMode(const mode currentMode, const std::string& inputFileName, std::string& outputFileName)
@@ -122,11 +154,11 @@ bool HandleFileByMode(const mode currentMode, const std::string& inputFileName, 
 
 	switch (currentMode)
 	{
-	case PACK_MODE:
-		PackFile(input, output);
+	case mode::PACK_MODE:
+		result = PackFile(input, output);
 		break;
-	case UNPACK_MODE:
-		UnpackFile(input, output);
+	case mode::UNPACK_MODE:
+		result = UnpackFile(input, output);
 		break;
 	default:
 		break;

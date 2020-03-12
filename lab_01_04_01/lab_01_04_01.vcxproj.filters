@@ -47,5 +47,25 @@
     <Text Include="output_empty.txt">
       <Filter>Source Files\tests</Filter>
     </Text>
+    <Text Include="input_with_spaces.txt">
+      <Filter>Source Files\tests</Filter>
+    </Text>
+    <Text Include="output_with_spaces.txt">
+      <Filter>Source Files\tests</Filter>
+    </Text>
+    <Text Include="output_invalid.txt">
+      <Filter>Source Files\tests</Filter>
+    </Text>
+    <Text Include="input_257_AB.txt">
+      <Filter>Source Files\tests</Filter>
+    </Text>
+    <Text Include="output_257_AB.txt">
+      <Filter>Source Files\tests</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tests.bat">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

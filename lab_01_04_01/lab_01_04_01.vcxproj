@@ -93,6 +93,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>"$(ProjectDir)tests.bat" "$(TargetPath)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -106,6 +109,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>"$(ProjectDir)tests.bat" "$(TargetPath)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -123,6 +129,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>"$(ProjectDir)tests.bat" "$(TargetPath)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -140,6 +149,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>"$(ProjectDir)tests.bat" "$(TargetPath)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="lab_01_04_01.cpp" />
@@ -147,12 +159,20 @@
   <ItemGroup>
     <Text Include="input_255_A.txt" />
     <Text Include="input_256_A.txt" />
+    <Text Include="input_257_AB.txt" />
     <Text Include="input_3_0.txt" />
     <Text Include="input_empty.txt" />
+    <Text Include="input_with_spaces.txt" />
     <Text Include="output_255_A.txt" />
     <Text Include="output_256_A.txt" />
+    <Text Include="output_257_AB.txt" />
     <Text Include="output_3_0.txt" />
     <Text Include="output_empty.txt" />
+    <Text Include="output_invalid.txt" />
+    <Text Include="output_with_spaces.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tests.bat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
