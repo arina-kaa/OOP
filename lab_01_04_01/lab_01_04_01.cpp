@@ -6,7 +6,8 @@
 
 const int MAX_LENGTH = 255;
 
-enum class Mode {
+enum class Mode 
+{
 	UNDEFINED_MODE,
 	PACK_MODE,
 	UNPACK_MODE
@@ -17,6 +18,18 @@ struct Args
 	Mode currentMode = Mode::UNDEFINED_MODE;
 	std::string inputFileName;
 	std::string outputFileName;
+};
+
+struct CompressionContext
+{
+	char compressionChar;
+	uint8_t counter = 0;
+};
+
+struct DecompressionContext
+{
+	char decompressionChar;
+	char counter;
 };
 
 Mode getCurrentMode(const std::string& modeStr)
@@ -47,12 +60,6 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	Args args;
 
 	args.currentMode = getCurrentMode(argv[1]);
-	if (args.currentMode == Mode::UNDEFINED_MODE)
-	{
-		std::cout << "Invalid mode.\n"
-			<< "Usage: pack or unpack.\n";
-		return std::nullopt;
-	}
 	args.inputFileName = argv[2];
 	args.outputFileName = argv[3];
 
@@ -61,70 +68,80 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
 void FlushPackResult(std::ostream& output, const int symbolCount, const char symbol)
 {
-	output << (char)symbolCount << symbol;
+	if (symbolCount != 0)
+	{
+		output << (char)symbolCount << symbol;
+	}
 }
 
-bool PackFile(std::istream& input, std::ostream& output)
+bool CompressChar(CompressionContext& context, char currentSymbol, std::ostream& output)
 {
-	char currentSymbol;
-	char originalSymbol;
-	int originalSymbolCount = 0;
-
-	while (input.get(currentSymbol))
+	if (context.counter == 0)
 	{
-		if (originalSymbolCount == 0)
-		{
-			originalSymbol = currentSymbol;
-		}
-
-		if (originalSymbol == currentSymbol)
-		{
-			originalSymbolCount++;
-		}
-		
-		if (originalSymbol != currentSymbol || originalSymbolCount == MAX_LENGTH)
-		{
-			FlushPackResult(output, originalSymbolCount, originalSymbol);
-			originalSymbol = currentSymbol;
-			originalSymbolCount = (originalSymbolCount == MAX_LENGTH) ? 0 : 1;
-		}
+		context.compressionChar = currentSymbol;
 	}
 
-	if (originalSymbolCount != 0)
+	if (context.compressionChar == currentSymbol)
 	{
-		FlushPackResult(output, originalSymbolCount, originalSymbol);
+		context.counter++;
+	}
+
+	bool isMaxCounterValue = context.counter == MAX_LENGTH;
+	if (context.compressionChar != currentSymbol || isMaxCounterValue)
+	{
+		FlushPackResult(output, context.counter, context.compressionChar);
+		context.compressionChar = currentSymbol;
+		context.counter = (isMaxCounterValue) ? 0 : 1;
 	}
 
 	return true;
 }
 
-void FlushUnpackResult(std::ostream& output, const int symbolCount, const char symbol)
+bool PackFile(std::istream& input, std::ostream& output)
 {
-	for (size_t i = 0; i < symbolCount; i++)
+	char currentSymbol;
+	CompressionContext symbolContext;
+	while (input.get(currentSymbol))
+	{
+		CompressChar(symbolContext, currentSymbol, output);
+	}
+	FlushPackResult(output, symbolContext.counter, symbolContext.compressionChar);
+
+	return true;
+}
+
+void FlushUnpackResult(std::ostream& output, const int symbolCounter, const char symbol)
+{
+	for (size_t i = 0; i < symbolCounter; i++)
 	{
 		output << symbol;
 	}
 }
 
+bool DecompressChar(DecompressionContext& context, std::ostream& output)
+{
+	uint8_t charCounter = static_cast<unsigned char>(context.counter);
+	if (charCounter == 0)
+	{
+		return false;
+	}
+	FlushUnpackResult(output, charCounter, context.decompressionChar);
+	return true;
+}
+
 bool UnpackFile(std::istream& input, std::ostream& output)
 {
-	char symbolCountCh, symbol;
-	int symbolCount;
-
-	while (input.get(symbolCountCh))
+	DecompressionContext symbolContext;
+	while (input.get(symbolContext.counter))
 	{
-		if (input.get(symbol))
-		{
-			symbolCount = static_cast<unsigned char>(symbolCountCh);
-			if (symbolCount == 0)
-			{
-				return false;
-			}
-			FlushUnpackResult(output, symbolCount, symbol);
-		}
-		else
+		if (!input.get(symbolContext.decompressionChar))
 		{
 			std::cout << "Damaged input file\n";
+			return false;
+		}
+		
+		if (!DecompressChar(symbolContext, output))
+        {
 			return false;
 		}
 	}
@@ -133,6 +150,7 @@ bool UnpackFile(std::istream& input, std::ostream& output)
 }
 
 using Transformer = std::function<bool(std::istream& input, std::ostream& output)>;
+
 bool TransformFile(const std::string& inputFileName, const std::string& outputFileName, const Transformer& transformer)
 {
 	bool result = true;
@@ -187,6 +205,11 @@ int main(int argc, char* argv[])
 		break;
 	case Mode::UNPACK_MODE:
 		result = TransformFile(args->inputFileName, args->outputFileName, UnpackFile);
+		break;
+	case Mode::UNDEFINED_MODE:
+		std::cout << "Invalid mode.\n"
+			<< "Usage: pack or unpack.\n";
+		result = false;
 		break;
 	default:
 		break;
