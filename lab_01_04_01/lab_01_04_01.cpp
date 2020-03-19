@@ -32,7 +32,7 @@ struct DecompressionContext
 	char counter;
 };
 
-Mode getCurrentMode(const std::string& modeStr)
+Mode GetProgramMode(const std::string& modeStr)
 {
 	Mode currentMode = Mode::UNDEFINED_MODE;
 	if (modeStr == "pack") 
@@ -59,7 +59,7 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 
 	Args args;
 
-	args.currentMode = getCurrentMode(argv[1]);
+	args.currentMode = GetProgramMode(argv[1]);
 	args.inputFileName = argv[2];
 	args.outputFileName = argv[3];
 
@@ -118,7 +118,7 @@ void FlushUnpackResult(std::ostream& output, const int symbolCounter, const char
 	}
 }
 
-bool DecompressChar(DecompressionContext& context, std::ostream& output)
+bool DecompressChar(const DecompressionContext& context, std::ostream& output)
 {
 	uint8_t charCounter = static_cast<unsigned char>(context.counter);
 	if (charCounter == 0)
