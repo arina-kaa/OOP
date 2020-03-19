@@ -65,7 +65,7 @@ void CopyFileWithReplace(std::istream& input, std::ostream& output,
 	}
 }
 
-bool CopyFileWithReplaceWrapper(std::string& inputFileName, std::string& outputFileName, 
+bool CopyFileWithReplaceWrapper(const std::string& inputFileName, const std::string& outputFileName, 
 	const std::string& searchString, const std::string& replaceString)
 {
 	bool result = true;
