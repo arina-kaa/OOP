@@ -65,11 +65,6 @@ if NOT ERRORLEVEL 1 goto err
 echo Test %COUNTER% passed
 set /A COUNTER=%COUNTER%+1
 
-%PROGRAM% 10 2 -2147483648 > nul
-if NOT ERRORLEVEL 1 goto err
-echo Test %COUNTER% passed
-set /A COUNTER=%COUNTER%+1
-
 REM Перевод положительного числа из 10 в 16
 %PROGRAM% 10 16 255 > "%TEMP%\output.txt"
 if ERRORLEVEL 1 goto err
@@ -127,9 +122,9 @@ echo Test %COUNTER% passed
 set /A COUNTER=%COUNTER%+1
 
 REM Перевод INT_MIN из 10 в 2
-%PROGRAM% 10 2 -2147483647 > "%TEMP%\output.txt"
+%PROGRAM% 10 2 -2147483648 > "%TEMP%\output.txt"
 if ERRORLEVEL 1 goto err
-fc tests\-2147483647_10_2.txt "%TEMP%\output.txt" > nul
+fc tests\-2147483648_10_2.txt "%TEMP%\output.txt" > nul
 if ERRORLEVEL 1 goto err
 echo Test %COUNTER% passed
 set /A COUNTER=%COUNTER%+1

@@ -65,6 +65,11 @@ int StringToInt(const std::string& str, const int radix, bool& wasError)
 {
 	wasError = false;
 	int result = 0;
+	if (str.length() == 0)
+	{
+		return 0;
+	}
+
 	const int sign = (str[0] == '-') ? -1 : 1;
 	const int firstDigitPosition = (str[0] == '+' || str[0] == '-') ? 1 : 0;
 	
@@ -76,10 +81,13 @@ int StringToInt(const std::string& str, const int radix, bool& wasError)
 			return 0;
 		}
 		// checking limits
-		int a = (INT_MAX - digit) / radix;
-		if (result <= (INT_MAX - digit) / radix)
+		if (sign > 0 && result <= (INT_MAX - digit) / radix)
 		{
 			result = result * radix + digit;
+		}
+		else if (sign < 0 && result >= (INT_MIN + digit) / radix)
+		{
+			result = result * radix - digit;
 		}
 		else
 		{
