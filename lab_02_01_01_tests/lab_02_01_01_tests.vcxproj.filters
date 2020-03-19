@@ -15,15 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lab_02_01_01.cpp">
+    <ClCompile Include="lab_02_01_01_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ProcessVector.cpp">
+    <ClCompile Include="..\lab_02_01_01\ProcessVector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ProcessVector.h">
+    <ClInclude Include="..\lab_02_01_01\ProcessVector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
