@@ -20,6 +20,8 @@ struct Args
 	std::string outputFileName;
 };
 
+#pragma pack (push)
+#pragma pack(1)
 struct CompressionContext
 {
 	char compressionChar;
@@ -31,6 +33,7 @@ struct DecompressionContext
 	char decompressionChar;
 	char counter;
 };
+#pragma pack (pop)
 
 Mode GetProgramMode(const std::string& modeStr)
 {
@@ -66,12 +69,16 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
-void FlushPackResult(std::ostream& output, CompressionContext& context)
+void FlushPackResult(std::ostream& output, CompressionContext& context, char currentSymbol)
 {
-	if (context.counter != 0)
+	if (context.counter == 0)
 	{
-		output << (char)context.counter << context.compressionChar;
+		return;
 	}
+
+	output << (char)context.counter << context.compressionChar;
+	context.compressionChar = currentSymbol;
+	context.counter = (context.counter == MAX_LENGTH) ? 0 : 1;
 }
 
 bool CompressChar(CompressionContext& context, char currentSymbol, std::ostream& output)
@@ -86,12 +93,9 @@ bool CompressChar(CompressionContext& context, char currentSymbol, std::ostream&
 		context.counter++;
 	}
 
-	bool isMaxCounterValue = context.counter == MAX_LENGTH;
-	if (context.compressionChar != currentSymbol || isMaxCounterValue)
+	if (context.compressionChar != currentSymbol || context.counter == MAX_LENGTH)
 	{
-		FlushPackResult(output, context);
-		context.compressionChar = currentSymbol;
-		context.counter = (isMaxCounterValue) ? 0 : 1;
+		FlushPackResult(output, context, currentSymbol);
 	}
 
 	return true;
@@ -105,7 +109,7 @@ bool PackFile(std::istream& input, std::ostream& output)
 	{
 		CompressChar(symbolContext, currentSymbol, output);
 	}
-	FlushPackResult(output, symbolContext);
+	FlushPackResult(output, symbolContext, currentSymbol);
 
 	return true;
 }
