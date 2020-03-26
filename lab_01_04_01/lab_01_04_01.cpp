@@ -66,11 +66,11 @@ std::optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
-void FlushPackResult(std::ostream& output, const int symbolCount, const char symbol)
+void FlushPackResult(std::ostream& output, CompressionContext& context)
 {
-	if (symbolCount != 0)
+	if (context.counter != 0)
 	{
-		output << (char)symbolCount << symbol;
+		output << (char)context.counter << context.compressionChar;
 	}
 }
 
@@ -89,7 +89,7 @@ bool CompressChar(CompressionContext& context, char currentSymbol, std::ostream&
 	bool isMaxCounterValue = context.counter == MAX_LENGTH;
 	if (context.compressionChar != currentSymbol || isMaxCounterValue)
 	{
-		FlushPackResult(output, context.counter, context.compressionChar);
+		FlushPackResult(output, context);
 		context.compressionChar = currentSymbol;
 		context.counter = (isMaxCounterValue) ? 0 : 1;
 	}
@@ -105,7 +105,7 @@ bool PackFile(std::istream& input, std::ostream& output)
 	{
 		CompressChar(symbolContext, currentSymbol, output);
 	}
-	FlushPackResult(output, symbolContext.counter, symbolContext.compressionChar);
+	FlushPackResult(output, symbolContext);
 
 	return true;
 }
