@@ -1,4 +1,4 @@
-#include "DecodeHtml.h"
+#include "HtmlDecode.h"
 
 const char DECODED_HTML_START_SYMBOL = '&';
 const char DECODED_HTML_END_SYMBOL = ';';
@@ -28,23 +28,25 @@ void ResetEncodedStr(std::string& str, std::string& result)
 void ProcessEncodedStr(std::string& encodedStr, std::string::iterator& it, bool& isStarted, std::string& result)
 {
 	encodedStr += *it;
-	if (*it == DECODED_HTML_END_SYMBOL)
+	if (*it != DECODED_HTML_END_SYMBOL)
 	{
-		isStarted = false;
-		auto decodedStr = HTML_ENTITIES.find(encodedStr);
-		if (decodedStr != HTML_ENTITIES.end())
-		{
-			FlushResult(decodedStr->second, result);
-			encodedStr.clear();
-		}
-		else
-		{
-			ResetEncodedStr(encodedStr, result);
-		}
+		return;
+	}
+
+	isStarted = false;
+	auto decodedStr = HTML_ENTITIES.find(encodedStr);
+	if (decodedStr != HTML_ENTITIES.end())
+	{
+		FlushResult(decodedStr->second, result);
+		encodedStr.clear();
+	}
+	else
+	{
+		ResetEncodedStr(encodedStr, result);
 	}
 }
 
-std::string DecodeHtml(std::string& htmlString)
+std::string HtmlDecode(std::string& htmlString)
 {
 	bool isStarted = false;
 	std::string encodedStr = "";
