@@ -38,4 +38,4 @@ UserState ProcessWordWaiting(User& user, Dictionary& dictionary);
 UserState ProcessWordTranslation(User& user, Dictionary& dictionary);
 std::vector<std::string> FindTranslation(const Dictionary& dictionary, const std::string& inputWord);
 void AddTranslation(User& user, Dictionary& dictionary);
-void SaveDictionary(const Dictionary& dictionary);
+void SaveDictionary(const Dictionary& dictionary, bool needSaving = false);

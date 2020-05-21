@@ -37,7 +37,7 @@ bool Translation(Dictionary& dictionary)
 	while (true)
 	{
 		getline(std::cin, user.newWord);
-		if (user.newWord == "...") break;
+		if (user.newWord == EXIT_TEXT) break;
 		ProcessInputWord(user, dictionary);
 	}
 
@@ -113,11 +113,11 @@ void AddTranslation(User& user, Dictionary& dictionary)
 	}
 }
 
-void SaveDictionary(const Dictionary& dictionary)
+void SaveDictionary(const Dictionary& dictionary, bool needSaving)
 {
 	std::cout << "The dictionary was changed. Would you like to save changes? (y/Y)" << std::endl;
 	char save = std::cin.get();
-	if ((save == 'y') || (save == 'Y'))
+	if (save == 'y' || save == 'Y' || needSaving)
 	{
 		std::ofstream newFile;
 		newFile.open(dictionary.fileName, std::ios::trunc);
