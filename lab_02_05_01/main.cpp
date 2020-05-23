@@ -15,10 +15,10 @@ int main(int argc, char* argv[])
 	std::string document;
 	if (ParseURL(url->value, protocol, port, host, document))
 	{
-		std::cout << url->value << std::endl;
-		//std::cout << "HOST: " << host << std::endl;
-		//std::cout << "PORT: " << port << std::endl;
-		//std::cout << "DOC: " << document << std::endl;
+		std::cout << "URL:  " << url->value << std::endl;
+		std::cout << "HOST: " << host << std::endl;
+		std::cout << "PORT: " << port << std::endl;
+		std::cout << "DOC:  " << document << std::endl;
 	}
 	else
 	{
