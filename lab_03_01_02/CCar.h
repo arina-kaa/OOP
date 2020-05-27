@@ -1,5 +1,7 @@
 #pragma once
 #include <array>
+#include <iostream>
+
 enum class Direction
 {
 	Forward,
@@ -27,15 +29,16 @@ public:
 	bool TurnOffEngine();
 	bool SetGear(int gear);
 	bool SetSpeed(int speed);
+	void GetInfo();
 
-	bool IsEngineOn() const;
-	Direction GetDirection() const;
 	int GetGear() const;
 	int GetSpeed() const;
 
 private:
+	bool IsValidSpeedForGear(const int speed, const int gear);
+	std::string GetStringDirection();
+
 	bool m_isEngineOn = false;
-	Direction m_direction = Direction::InPlace;
 	int m_gear = 0;
 	int m_speed = 0;
 };

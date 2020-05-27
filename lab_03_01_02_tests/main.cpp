@@ -11,7 +11,6 @@ SCENARIO("TurnOnEngine")
 		THEN("true")
 		{
 			CHECK(car.TurnOnEngine() == true);
-			CHECK(car.IsEngineOn() == true);
 		}
 	}
 	WHEN("Engine was on")
@@ -21,7 +20,6 @@ SCENARIO("TurnOnEngine")
 		THEN("false")
 		{
 			CHECK(car.TurnOnEngine() == false);
-			CHECK(car.IsEngineOn() == true);
 		}
 	}
 }
@@ -34,7 +32,6 @@ SCENARIO("TurnOffEngine")
 		THEN("false")
 		{
 			CHECK(car.TurnOffEngine() == false);
-			CHECK(car.IsEngineOn() == false);
 		}
 	}
 	WHEN("Engine was on")
@@ -44,7 +41,6 @@ SCENARIO("TurnOffEngine")
 		THEN("true")
 		{
 			CHECK(car.TurnOffEngine() == true);
-			CHECK(car.IsEngineOn() == false);
 		}
 	}
 	WHEN("Engine was on, gear is not neutral")
@@ -55,18 +51,17 @@ SCENARIO("TurnOffEngine")
 		THEN("false")
 		{
 			CHECK(car.TurnOffEngine() == false);
-			CHECK(car.IsEngineOn() == true);
 		}
 	}
 	WHEN("Engine was on, speed is not 0")
 	{
 		CCar car;
 		car.TurnOnEngine();
+		car.SetGear(1);
 		car.SetSpeed(10);
 		THEN("false")
 		{
 			CHECK(car.TurnOffEngine() == false);
-			CHECK(car.IsEngineOn() == true);
 		}
 	}
 }
@@ -79,8 +74,6 @@ SCENARIO("SetGear")
 		THEN("true")
 		{
 			CHECK(car.SetGear(0) == true);
-			CHECK(car.GetDirection() == Direction::InPlace);
-			CHECK(car.GetGear() == 0);
 		}
 	}
 	WHEN("Engine was off, gear changes not to neutral")
@@ -89,8 +82,6 @@ SCENARIO("SetGear")
 		THEN("false")
 		{
 			CHECK(car.SetGear(1) == false);
-			CHECK(car.GetDirection() == Direction::InPlace);
-			CHECK(car.GetGear() == 0);
 		}
 	}
 	WHEN("Engine was on, gear changes with valid speed")
@@ -98,12 +89,10 @@ SCENARIO("SetGear")
 		CCar car;
 		car.TurnOnEngine();
 		car.SetGear(1);
-		car.SetSpeed(30);
+		car.SetSpeed(20);
 		THEN("true")
 		{
 			CHECK(car.SetGear(2) == true);
-			CHECK(car.GetDirection() == Direction::Forward);
-			CHECK(car.GetGear() == 2);
 		}
 	}
 	WHEN("Engine was on, gear changes with invalid speed")
@@ -115,21 +104,15 @@ SCENARIO("SetGear")
 		THEN("false")
 		{
 			CHECK(car.SetGear(2) == false);
-			CHECK(car.GetDirection() == Direction::Forward);
-			CHECK(car.GetGear() == 1);
 		}
 	}
 	WHEN("Engine was on, gear changes to back with 0 speed")
 	{
 		CCar car;
 		car.TurnOnEngine();
-		car.SetGear(0);
-		car.SetSpeed(0);
 		THEN("true")
 		{
 			CHECK(car.SetGear(-1) == true);
-			CHECK(car.GetDirection() == Direction::Back);
-			CHECK(car.GetGear() == -1);
 		}
 	}
 	WHEN("Engine was on, gear changes to back with not 0 speed")
@@ -141,8 +124,6 @@ SCENARIO("SetGear")
 		THEN("false")
 		{
 			CHECK(car.SetGear(-1) == false);
-			CHECK(car.GetDirection() == Direction::Forward);
-			CHECK(car.GetGear() == 1);
 		}
 	}
 }
