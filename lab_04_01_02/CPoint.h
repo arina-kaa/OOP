@@ -8,6 +8,8 @@ public:
 	{
 	}
 	~CPoint() = default;
+	double x() const;
+	double y() const;
 
 private:
 	double m_x = 0;
