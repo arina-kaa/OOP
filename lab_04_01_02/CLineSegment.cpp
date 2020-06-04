@@ -13,7 +13,10 @@ double CLineSegment::GetArea() const
 
 double CLineSegment::GetPerimeter() const
 {
-	return 0.0;
+	const CPoint startPoint = GetStartPoint();
+	const CPoint endPoint = GetEndPoint();
+
+	return hypot(endPoint.x - startPoint.x, endPoint.y - startPoint.y);
 }
 
 std::string CLineSegment::ToString() const

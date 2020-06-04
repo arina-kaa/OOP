@@ -13,12 +13,28 @@ CTriangle::CTriangle(CPoint const& vertex1, CPoint const& vertex2, CPoint const&
 
 double CTriangle::GetArea() const
 {
-	return 0.0;
+	double halfPerimeter = GetPerimeter() / 2;
+	const CPoint vertex1 = GetVertex1();
+	const CPoint vertex2 = GetVertex2();
+	const CPoint vertex3 = GetVertex3();
+
+	return sqrt(
+		halfPerimeter 
+		* (halfPerimeter - hypot(vertex2.x - vertex1.x, vertex2.y - vertex1.y))
+		* (halfPerimeter - hypot(vertex3.x - vertex2.x, vertex3.y - vertex2.y))
+		* (halfPerimeter - hypot(vertex3.x - vertex1.x, vertex3.y - vertex1.y))
+	);
 }
 
 double CTriangle::GetPerimeter() const
 {
-	return 0.0;
+	const CPoint vertex1 = GetVertex1();
+	const CPoint vertex2 = GetVertex2();
+	const CPoint vertex3 = GetVertex3();
+
+	return hypot(vertex2.x - vertex1.x, vertex2.y - vertex1.y)
+		+ hypot(vertex3.x - vertex2.x, vertex3.y - vertex2.y)
+		+ hypot(vertex3.x - vertex1.x, vertex3.y - vertex1.y);
 }
 
 std::string CTriangle::ToString() const
