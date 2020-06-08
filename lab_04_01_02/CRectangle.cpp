@@ -27,15 +27,15 @@ std::string CRectangle::ToString() const
 	const CPoint leftTopPoint = GetLeftTopPoint();
 	const CPoint rightBottomPoint = GetRightBottomPoint();
 
-	str << "Name: Rectangle" << std::endl
-		<< "Left Top Point: (" << leftTopPoint.x() << ", " << leftTopPoint.y() << ")" << std::endl
-		<< "Right Bottom Point: (" << rightBottomPoint.x() << ", " << rightBottomPoint.y() << ")" << std::endl
-		<< "Width: " << GetWidth() << std::endl
-		<< "Height: " << GetHeight() << std::endl
-		<< "Area: " << GetArea() << std::endl
-		<< "Perimeter: " << GetPerimeter() << std::endl
-		<< "Fill color: " << GetFillColor() << std::endl
-		<< "Outline color: " << GetOutlineColor() << std::endl;
+	str << "  Name: Rectangle" << std::endl
+		<< "  Left Top Point: (" << leftTopPoint.x() << ", " << leftTopPoint.y() << ")" << std::endl
+		<< "  Right Bottom Point: (" << rightBottomPoint.x() << ", " << rightBottomPoint.y() << ")" << std::endl
+		<< "  Width: " << GetWidth() << std::endl
+		<< "  Height: " << GetHeight() << std::endl
+		<< "  Area: " << GetArea() << std::endl
+		<< "  Perimeter: " << GetPerimeter() << std::endl
+		<< "  Fill color: " << GetFillColor() << std::endl
+		<< "  Outline color: " << GetOutlineColor() << std::endl;
 
 	return str.str();
 }

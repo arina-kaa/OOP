@@ -6,9 +6,6 @@ class CSolidShape :
 	virtual public ISolidShape, public CShape
 {
 public:
-	CSolidShape() = default;
-	virtual ~CSolidShape() = default;
-
 	void SetFillColor(uint32_t const& color) override;
 	uint32_t GetFillColor() const;
 

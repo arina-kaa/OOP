@@ -7,7 +7,6 @@ class CTriangle :
 {
 public:
 	CTriangle(CPoint const& vertex1, CPoint const& vertex2, CPoint const& vertex3, std::string const& fillColor, std::string const& outlineColor);
-	~CTriangle() = default;
 
 	double GetArea() const override;
 	double GetPerimeter() const override;

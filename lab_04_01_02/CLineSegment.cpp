@@ -25,12 +25,12 @@ std::string CLineSegment::ToString() const
 	const CPoint startPoint = GetStartPoint();
 	const CPoint endPoint = GetEndPoint();
 
-	str << "Name: Line Segment" << std::endl
-		<< "Start point: (" << startPoint.x() << ", " << startPoint.y() << ")" << std::endl
-		<< "End point: (" << endPoint.x() << ", " << endPoint.y() << ")" << std::endl
-		<< "Area: " << GetArea() << std::endl
-		<< "Perimeter: " << GetPerimeter() << std::endl
-		<< "Outline color: " << GetOutlineColor() << std::endl;
+	str << "  Name: Line Segment" << std::endl
+		<< "  Start point: (" << startPoint.x() << ", " << startPoint.y() << ")" << std::endl
+		<< "  End point: (" << endPoint.x() << ", " << endPoint.y() << ")" << std::endl
+		<< "  Area: " << GetArea() << std::endl
+		<< "  Perimeter: " << GetPerimeter() << std::endl
+		<< "  Outline color: " << GetOutlineColor() << std::endl;
 
 	return str.str();
 }

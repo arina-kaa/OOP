@@ -44,14 +44,14 @@ std::string CTriangle::ToString() const
 	const CPoint vertex2 = GetVertex2();
 	const CPoint vertex3 = GetVertex3();
 
-	str << "Name: Triangle" << std::endl
-		<< "Vertex 1: (" << vertex1.x() << ", " << vertex1.y() << ")" << std::endl
-		<< "Vertex 2: (" << vertex2.x() << ", " << vertex2.y() << ")" << std::endl
-		<< "Vertex 3: (" << vertex3.x() << ", " << vertex3.y() << ")" << std::endl
-		<< "Area: " << GetArea() << std::endl
-		<< "Perimeter: " << GetPerimeter() << std::endl
-		<< "Fill color: " << GetFillColor() << std::endl
-		<< "Outline color: " << GetOutlineColor() << std::endl;
+	str << "  Name: Triangle" << std::endl
+		<< "  Vertex 1: (" << vertex1.x() << ", " << vertex1.y() << ")" << std::endl
+		<< "  Vertex 2: (" << vertex2.x() << ", " << vertex2.y() << ")" << std::endl
+		<< "  Vertex 3: (" << vertex3.x() << ", " << vertex3.y() << ")" << std::endl
+		<< "  Area: " << GetArea() << std::endl
+		<< "  Perimeter: " << GetPerimeter() << std::endl
+		<< "  Fill color: " << GetFillColor() << std::endl
+		<< "  Outline color: " << GetOutlineColor() << std::endl;
 
 	return str.str();
 }

@@ -16,8 +16,8 @@ void CSession::ProcessCommand(std::istream& commands)
 	{
 		boost::algorithm::to_lower(line);
 		boost::split(command, line, [](char c) {return c == ' '; });
+		if (command[0] == EXIT_TEXT) break;
 		auto it = commandMap.find(command[0]);
-		if (it == commandMap.end()) continue;
 		if (it->second.second == command.size())
 		{
 			CSession::CreateShape(it->second.first, command);
@@ -29,20 +29,29 @@ void CSession::ProcessCommand(std::istream& commands)
 	}
 }
 
-std::unique_ptr<IShape> CSession::GetMaxAriaShape() const
+std::vector<std::unique_ptr<IShape>>::const_iterator CSession::GetMaxAriaShape() const
 {
-	return *std::max_element(m_shapes.cbegin(), m_shapes.cend(),
-		[](const auto& lhs, const auto& rhs) {
-			return lhs->GetArea() > rhs->GetArea();
-		});
+	if (m_shapes.empty())
+		return m_shapes.end();
+
+	return std::max_element(m_shapes.cbegin(), m_shapes.cend(), [](auto& lhs, auto& rhs) {
+		return lhs->GetArea() < rhs->GetArea();
+	});
 }
 
-std::unique_ptr<IShape> CSession::GetMinPerimeterShape() const
+std::vector<std::unique_ptr<IShape>>::const_iterator CSession::GetMinPerimeterShape() const
 {
-	return *std::min_element(m_shapes.cbegin(), m_shapes.cend(), 
-		[](const auto& lhs, const auto& rhs) {
-			return lhs->GetPerimeter() < rhs->GetPerimeter();
-		});
+	if (m_shapes.empty())
+		return m_shapes.end();
+
+	return std::min_element(m_shapes.cbegin(), m_shapes.cend(), [](auto& lhs, auto& rhs) {
+		return lhs->GetPerimeter() < rhs->GetPerimeter();
+	});
+}
+
+std::string CSession::GetShapeInfo(std::vector<std::unique_ptr<IShape>>::const_iterator shape) const
+{
+	return (shape != m_shapes.end()) ? (*shape)->ToString() : "";
 }
 
 void CSession::CreateShape(Shapes shape, std::vector<std::string> command)

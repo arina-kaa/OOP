@@ -7,7 +7,6 @@ class CCircle :
 {
 public:
 	CCircle(CPoint const& centerPoint, double const& radius, std::string const& fillColor, std::string const& outlineColor);
-	~CCircle() = default;
 
 	double GetArea() const override;
 	double GetPerimeter() const override;

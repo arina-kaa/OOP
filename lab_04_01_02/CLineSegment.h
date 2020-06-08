@@ -7,7 +7,6 @@ class CLineSegment :
 {
 public:
 	CLineSegment(CPoint const& startPoint, CPoint const& endPoint, std::string const& color);
-	~CLineSegment() = default;
 
 	double GetArea() const override;
 	double GetPerimeter() const override;

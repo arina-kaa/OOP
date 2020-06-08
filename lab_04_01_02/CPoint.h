@@ -7,7 +7,6 @@ public:
 		, m_y(y)
 	{
 	}
-	~CPoint() = default;
 	double x() const;
 	double y() const;
 

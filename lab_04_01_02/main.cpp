@@ -3,12 +3,14 @@
 int main()
 {
 	CSession session;
+	std::cout << "This program finds a shape with a maximum area and minimum perimeter." << std::endl;
+	std::cout << "To exit, enter \"exit\"." << std::endl;
 	session.ProcessCommand(std::cin);
 
-	std::cout << "Shape with max area:" << std::endl;
-	std::cout << session.GetMaxAriaShape()->ToString();
-	std::cout << "Shape with min perimeter:" << std::endl;
-	std::cout << session.GetMinPerimeterShape()->ToString();
+	//std::cout << std::endl << "Max Area Shape:" << std::endl;
+	//std::cout << session.GetShapeInfo(session.GetMaxAriaShape());
+	//std::cout << std::endl << "Min Perimeter Shape:" << std::endl;
+	//std::cout << session.GetShapeInfo(session.GetMinPerimeterShape()) << std::endl;
 
 	return 0;
 }

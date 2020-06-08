@@ -14,6 +14,8 @@
 #include "CRectangle.h"
 #include "CTriangle.h"
 
+const std::string EXIT_TEXT = "exit";
+
 enum class Shapes
 {
 	Circle,
@@ -26,8 +28,9 @@ class CSession
 {
 public:
 	void ProcessCommand(std::istream& commands);
-	std::unique_ptr<IShape> GetMaxAriaShape() const;
-	std::unique_ptr<IShape> GetMinPerimeterShape() const;
+	std::vector<std::unique_ptr<IShape>>::const_iterator GetMaxAriaShape() const;
+	std::vector<std::unique_ptr<IShape>>::const_iterator GetMinPerimeterShape() const;
+	std::string GetShapeInfo(std::vector<std::unique_ptr<IShape>>::const_iterator shape) const;
 
 private:
 	void CreateShape(Shapes shape, std::vector<std::string> command);

@@ -27,13 +27,13 @@ std::string CCircle::ToString() const
 	std::stringstream str;
 	const CPoint center = GetCenter();
 
-	str << "Name: Circle" << std::endl
-		<< "Center point: (" << center.x() << ", " << center.y() << ")" << std::endl
-		<< "Radius: " << GetRadius() << std::endl
-		<< "Area: " << GetArea() << std::endl
-		<< "Perimeter: " << GetPerimeter() << std::endl
-		<< "Fill color: " << GetFillColor() << std::endl
-		<< "Outline color: " << GetOutlineColor() << std::endl;
+	str << "  Name: Circle" << std::endl
+		<< "  Center point: (" << center.x() << ", " << center.y() << ")" << std::endl
+		<< "  Radius: " << GetRadius() << std::endl
+		<< "  Area: " << GetArea() << std::endl
+		<< "  Perimeter: " << GetPerimeter() << std::endl
+		<< "  Fill color: " << GetFillColor() << std::endl
+		<< "  Outline color: " << GetOutlineColor() << std::endl;
 
 	return str.str();
 }

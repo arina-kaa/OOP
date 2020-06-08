@@ -7,7 +7,6 @@ class CRectangle :
 {
 public:
 	CRectangle(CPoint const& leftTopPoint, double const& width, double const& height, std::string const& fillColor, std::string const& outlineColor);
-	~CRectangle() = default;
 
 	double GetArea() const override;
 	double GetPerimeter() const override;
