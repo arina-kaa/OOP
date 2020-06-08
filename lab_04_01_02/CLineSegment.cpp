@@ -16,7 +16,7 @@ double CLineSegment::GetPerimeter() const
 	const CPoint startPoint = GetStartPoint();
 	const CPoint endPoint = GetEndPoint();
 
-	return hypot(endPoint.x - startPoint.x, endPoint.y - startPoint.y);
+	return hypot(endPoint.x() - startPoint.x(), endPoint.y() - startPoint.y());
 }
 
 std::string CLineSegment::ToString() const
@@ -26,8 +26,8 @@ std::string CLineSegment::ToString() const
 	const CPoint endPoint = GetEndPoint();
 
 	str << "Name: Line Segment" << std::endl
-		<< "Start point: (" << startPoint.x << ", " << startPoint.y << ")" << std::endl
-		<< "End point: (" << endPoint.x << ", " << endPoint.y << ")" << std::endl
+		<< "Start point: (" << startPoint.x() << ", " << startPoint.y() << ")" << std::endl
+		<< "End point: (" << endPoint.x() << ", " << endPoint.y() << ")" << std::endl
 		<< "Area: " << GetArea() << std::endl
 		<< "Perimeter: " << GetPerimeter() << std::endl
 		<< "Outline color: " << GetOutlineColor() << std::endl;

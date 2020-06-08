@@ -28,8 +28,8 @@ std::string CRectangle::ToString() const
 	const CPoint rightBottomPoint = GetRightBottomPoint();
 
 	str << "Name: Rectangle" << std::endl
-		<< "Left Top Point: (" << leftTopPoint.x << ", " << leftTopPoint.y << ")" << std::endl
-		<< "Right Bottom Point: (" << rightBottomPoint.x << ", " << rightBottomPoint.y << ")" << std::endl
+		<< "Left Top Point: (" << leftTopPoint.x() << ", " << leftTopPoint.y() << ")" << std::endl
+		<< "Right Bottom Point: (" << rightBottomPoint.x() << ", " << rightBottomPoint.y() << ")" << std::endl
 		<< "Width: " << GetWidth() << std::endl
 		<< "Height: " << GetHeight() << std::endl
 		<< "Area: " << GetArea() << std::endl
@@ -48,7 +48,7 @@ CPoint CRectangle::GetLeftTopPoint() const
 CPoint CRectangle::GetRightBottomPoint() const
 {
 	CPoint leftTopPoint = GetLeftTopPoint();
-	return CPoint(leftTopPoint.x + GetWidth(), leftTopPoint.y + GetHeight());
+	return CPoint(leftTopPoint.x() + GetWidth(), leftTopPoint.y() + GetHeight());
 }
 
 double CRectangle::GetWidth() const

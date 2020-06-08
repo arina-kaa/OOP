@@ -20,9 +20,9 @@ double CTriangle::GetArea() const
 
 	return sqrt(
 		halfPerimeter 
-		* (halfPerimeter - hypot(vertex2.x - vertex1.x, vertex2.y - vertex1.y))
-		* (halfPerimeter - hypot(vertex3.x - vertex2.x, vertex3.y - vertex2.y))
-		* (halfPerimeter - hypot(vertex3.x - vertex1.x, vertex3.y - vertex1.y))
+		* (halfPerimeter - hypot(vertex2.x() - vertex1.x(), vertex2.y() - vertex1.y()))
+		* (halfPerimeter - hypot(vertex3.x() - vertex2.x(), vertex3.y() - vertex2.y()))
+		* (halfPerimeter - hypot(vertex3.x() - vertex1.x(), vertex3.y() - vertex1.y()))
 	);
 }
 
@@ -32,9 +32,9 @@ double CTriangle::GetPerimeter() const
 	const CPoint vertex2 = GetVertex2();
 	const CPoint vertex3 = GetVertex3();
 
-	return hypot(vertex2.x - vertex1.x, vertex2.y - vertex1.y)
-		+ hypot(vertex3.x - vertex2.x, vertex3.y - vertex2.y)
-		+ hypot(vertex3.x - vertex1.x, vertex3.y - vertex1.y);
+	return hypot(vertex2.x() - vertex1.x(), vertex2.y() - vertex1.y())
+		+ hypot(vertex3.x() - vertex2.x(), vertex3.y() - vertex2.y())
+		+ hypot(vertex3.x() - vertex1.x(), vertex3.y() - vertex1.y());
 }
 
 std::string CTriangle::ToString() const
@@ -45,9 +45,9 @@ std::string CTriangle::ToString() const
 	const CPoint vertex3 = GetVertex3();
 
 	str << "Name: Triangle" << std::endl
-		<< "Vertex 1: (" << vertex1.x << ", " << vertex1.y << ")" << std::endl
-		<< "Vertex 2: (" << vertex2.x << ", " << vertex2.y << ")" << std::endl
-		<< "Vertex 3: (" << vertex3.x << ", " << vertex3.y << ")" << std::endl
+		<< "Vertex 1: (" << vertex1.x() << ", " << vertex1.y() << ")" << std::endl
+		<< "Vertex 2: (" << vertex2.x() << ", " << vertex2.y() << ")" << std::endl
+		<< "Vertex 3: (" << vertex3.x() << ", " << vertex3.y() << ")" << std::endl
 		<< "Area: " << GetArea() << std::endl
 		<< "Perimeter: " << GetPerimeter() << std::endl
 		<< "Fill color: " << GetFillColor() << std::endl
