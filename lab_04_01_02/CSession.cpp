@@ -12,10 +12,11 @@ void CSession::ProcessCommand(std::istream& commands)
 	std::string line;
 	std::vector<std::string> command;
 
-	while (std::getline(std::cin, line))
+	while (std::getline(commands, line))
 	{
 		boost::algorithm::to_lower(line);
 		boost::split(command, line, [](char c) {return c == ' '; });
+		if (command[0] == "") continue;
 		if (command[0] == EXIT_TEXT) break;
 		auto it = commandMap.find(command[0]);
 		if (it->second.second == command.size())
@@ -90,7 +91,12 @@ void CSession::CreateCircle(std::vector<std::string> command)
 {
 	try
 	{
-		return m_shapes.push_back(std::make_unique<CCircle>(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), command[4], command[5]));
+		return m_shapes.push_back(std::make_unique<CCircle>(
+			CPoint(stod(command[1]), stod(command[2])), 
+			stod(command[3]), 
+			command[4], 
+			command[5]
+		));
 	}
 	catch (const std::logic_error&)
 	{
@@ -102,7 +108,11 @@ void CSession::CreateLineSegment(std::vector<std::string> command)
 {
 	try
 	{
-		return m_shapes.push_back(std::make_unique<CLineSegment>(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), command[5]));
+		return m_shapes.push_back(std::make_unique<CLineSegment>(
+			CPoint(stod(command[1]), stod(command[2])), 
+			CPoint(stod(command[3]), stod(command[4])), 
+			command[5]
+		));
 	}
 	catch (const std::logic_error&)
 	{
@@ -114,7 +124,13 @@ void CSession::CreateRectangle(std::vector<std::string> command)
 {
 	try
 	{
-		return m_shapes.push_back(std::make_unique<CRectangle>(CPoint(stod(command[1]), stod(command[2])), stod(command[3]), stod(command[4]), command[5], command[6]));
+		return m_shapes.push_back(std::make_unique<CRectangle>(
+			CPoint(stod(command[1]), stod(command[2])), 
+			stod(command[3]), 
+			stod(command[4]), 
+			command[5], 
+			command[6]
+		));
 	}
 	catch (const std::logic_error&)
 	{
@@ -126,7 +142,13 @@ void CSession::CreateTriangle(std::vector<std::string> command)
 {
 	try
 	{
-		return m_shapes.push_back(std::make_unique<CTriangle>(CPoint(stod(command[1]), stod(command[2])), CPoint(stod(command[3]), stod(command[4])), CPoint(stod(command[5]), stod(command[6])), command[7], command[8]));
+		return m_shapes.push_back(std::make_unique<CTriangle>(
+			CPoint(stod(command[1]), stod(command[2])), 
+			CPoint(stod(command[3]), stod(command[4])), 
+			CPoint(stod(command[5]), stod(command[6])), 
+			command[7], 
+			command[8]
+		));
 	}
 	catch (const std::logic_error&)
 	{

@@ -50,8 +50,8 @@ std::string CTriangle::ToString() const
 		<< "  Vertex 3: (" << vertex3.x() << ", " << vertex3.y() << ")" << std::endl
 		<< "  Area: " << GetArea() << std::endl
 		<< "  Perimeter: " << GetPerimeter() << std::endl
-		<< "  Fill color: " << GetFillColor() << std::endl
-		<< "  Outline color: " << GetOutlineColor() << std::endl;
+		<< "  Fill color: " << std::hex << "0x" << GetFillColor() << std::endl
+		<< "  Outline color: " << std::hex << "0x" << GetOutlineColor() << std::endl;
 
 	return str.str();
 }

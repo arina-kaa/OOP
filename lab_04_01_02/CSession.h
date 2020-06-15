@@ -32,6 +32,8 @@ public:
 	std::vector<std::unique_ptr<IShape>>::const_iterator GetMinPerimeterShape() const;
 	std::string GetShapeInfo(std::vector<std::unique_ptr<IShape>>::const_iterator shape) const;
 
+	std::vector<std::unique_ptr<IShape>> m_shapes;
+
 private:
 	void CreateShape(Shapes shape, std::vector<std::string> command);
 	void CreateCircle(std::vector<std::string> command);
@@ -39,6 +41,6 @@ private:
 	void CreateRectangle(std::vector<std::string> command);
 	void CreateTriangle(std::vector<std::string> command);
 
-	std::vector<std::unique_ptr<IShape>> m_shapes;
+	//std::vector<std::unique_ptr<IShape>> m_shapes;
 };
 

@@ -2,8 +2,11 @@
 #include <iostream>
 #include <sstream>
 
-CLineSegment::CLineSegment(CPoint const& startPoint, CPoint const& endPoint, std::string const& color)
+CLineSegment::CLineSegment(CPoint const& startPoint, CPoint const& endPoint, std::string const& outlineColor)
+	: m_startPoint(startPoint)
+	, m_endPoint(endPoint)
 {
+	SetOutlineColor(stoul(outlineColor, 0, 16));
 }
 
 double CLineSegment::GetArea() const
@@ -30,7 +33,7 @@ std::string CLineSegment::ToString() const
 		<< "  End point: (" << endPoint.x() << ", " << endPoint.y() << ")" << std::endl
 		<< "  Area: " << GetArea() << std::endl
 		<< "  Perimeter: " << GetPerimeter() << std::endl
-		<< "  Outline color: " << GetOutlineColor() << std::endl;
+		<< "  Outline color: " << std::hex << "0x" << GetOutlineColor() << std::endl;
 
 	return str.str();
 }

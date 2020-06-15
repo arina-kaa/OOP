@@ -7,10 +7,10 @@ int main()
 	std::cout << "To exit, enter \"exit\"." << std::endl;
 	session.ProcessCommand(std::cin);
 
-	//std::cout << std::endl << "Max Area Shape:" << std::endl;
-	//std::cout << session.GetShapeInfo(session.GetMaxAriaShape());
-	//std::cout << std::endl << "Min Perimeter Shape:" << std::endl;
-	//std::cout << session.GetShapeInfo(session.GetMinPerimeterShape()) << std::endl;
+	std::cout << std::endl << "Max Area Shape:" << std::endl;
+	std::cout << session.GetShapeInfo(session.GetMaxAriaShape()) << std::endl;
+	std::cout << std::endl << "Min Perimeter Shape:" << std::endl;
+	std::cout << session.GetShapeInfo(session.GetMinPerimeterShape()) << std::endl;
 
 	return 0;
 }
