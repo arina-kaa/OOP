@@ -38,6 +38,11 @@ std::string CCircle::ToString() const
 	return str.str();
 }
 
+void CCircle::Draw(ICanvas& canvas) const
+{
+	canvas.DrawFillCircle(m_center, m_radius, GetFillColor(), GetOutlineColor());
+}
+
 CPoint CCircle::GetCenter() const
 {
 	return m_center;
