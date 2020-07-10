@@ -1,4 +1,5 @@
 #include "CSession.h"
+#include "CCanvas.h"
 
 const std::map <std::string, std::pair<Shapes, int>> commandMap = {
 	{ "circle",      { Shapes::Circle,      6 } },
@@ -53,6 +54,29 @@ std::vector<std::unique_ptr<IShape>>::const_iterator CSession::GetMinPerimeterSh
 std::string CSession::GetShapeInfo(std::vector<std::unique_ptr<IShape>>::const_iterator shape) const
 {
 	return (shape != m_shapes.end()) ? (*shape)->ToString() : "";
+}
+
+void CSession::DrawShapes() const
+{
+	if (!m_shapes.empty())
+	{
+		sf::RenderWindow window(sf::VideoMode(800, 800), "Draw Shapes");
+		CCanvas canvas(window);
+		while (window.isOpen())
+		{
+			sf::Event event;
+			while (window.pollEvent(event))
+				if (event.type == sf::Event::Closed)
+					window.close();
+
+			window.clear(sf::Color::White);
+
+			for (const auto& shape : m_shapes)
+				shape->Draw(canvas);
+
+			window.display();
+		}
+	}
 }
 
 void CSession::CreateShape(Shapes shape, std::vector<std::string> command)

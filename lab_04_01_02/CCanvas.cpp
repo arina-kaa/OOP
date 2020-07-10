@@ -7,19 +7,19 @@ CCanvas::CCanvas(sf::RenderWindow& window)
 
 void CCanvas::DrawLine(CPoint const& startPoint, CPoint const& endPoint, uint32_t const& color) const
 {
-	/*sf::Vertex line[] =
+	sf::Vertex line[] =
 	{
 		sf::Vertex(sf::Vector2f(startPoint.x(), startPoint.y())),
 		sf::Vertex(sf::Vector2f(endPoint.x(), endPoint.y()))
 	};
 	line[0].color = GetRGB(color);
 	line[1].color = GetRGB(color);
-	m_window.draw(line, 2, sf::Lines);*/
+	m_window.draw(line, 2, sf::Lines);
 }
 
 void CCanvas::DrawFillPoligon(std::vector<CPoint> const& points, uint32_t const& fillColor, uint32_t const& outlineColor) const
 {
-	/*sf::ConvexShape polygon;
+	sf::ConvexShape polygon;
 	polygon.setPointCount(points.size());
 	for (size_t i = 0; i < points.size(); i++)
 	{
@@ -28,18 +28,18 @@ void CCanvas::DrawFillPoligon(std::vector<CPoint> const& points, uint32_t const&
 	polygon.setFillColor(GetRGB(fillColor));
 	polygon.setOutlineColor(GetRGB(outlineColor));
 	polygon.setOutlineThickness(1);
-	m_window.draw(polygon);*/
+	m_window.draw(polygon);
 }
 
 void CCanvas::DrawFillCircle(CPoint const& centerPoint, double const& radius, uint32_t const& fillColor, uint32_t const& outlineColor) const
 {
-	/*sf::CircleShape circle;
+	sf::CircleShape circle;
 	circle.setPosition(centerPoint.x(), centerPoint.y());
 	circle.setRadius(radius);
 	circle.setFillColor(GetRGB(fillColor));
 	circle.setOutlineColor(GetRGB(outlineColor));
 	circle.setOutlineThickness(1);
-	m_window.draw(circle);*/
+	m_window.draw(circle);
 }
 
 sf::Color CCanvas::GetRGB(uint32_t const& color) const

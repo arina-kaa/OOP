@@ -11,6 +11,7 @@ int main()
 	std::cout << session.GetShapeInfo(session.GetMaxAriaShape()) << std::endl;
 	std::cout << std::endl << "Min Perimeter Shape:" << std::endl;
 	std::cout << session.GetShapeInfo(session.GetMinPerimeterShape()) << std::endl;
+	session.DrawShapes();
 
 	return 0;
 }

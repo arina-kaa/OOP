@@ -13,6 +13,8 @@
 #include "CLineSegment.h"
 #include "CRectangle.h"
 #include "CTriangle.h"
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
 const std::string EXIT_TEXT = "exit";
 
@@ -31,6 +33,7 @@ public:
 	std::vector<std::unique_ptr<IShape>>::const_iterator GetMaxAriaShape() const;
 	std::vector<std::unique_ptr<IShape>>::const_iterator GetMinPerimeterShape() const;
 	std::string GetShapeInfo(std::vector<std::unique_ptr<IShape>>::const_iterator shape) const;
+	void DrawShapes() const;
 
 private:
 	void CreateShape(Shapes shape, std::vector<std::string> command);
