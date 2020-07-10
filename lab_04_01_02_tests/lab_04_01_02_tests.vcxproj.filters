@@ -42,6 +42,9 @@
     <ClCompile Include="..\lab_04_01_02\CSolidShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\lab_04_01_02\CCanvas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lab_04_01_02\CCircle.h">
@@ -72,6 +75,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\lab_04_01_02\ISolidShape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lab_04_01_02\CCanvas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lab_04_01_02\ICanvas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lab_04_01_02\ICanvasDrawable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

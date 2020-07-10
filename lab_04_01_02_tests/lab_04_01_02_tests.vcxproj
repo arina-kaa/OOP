@@ -85,7 +85,6 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>..</AdditionalIncludeDirectories>
@@ -102,7 +101,6 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>..</AdditionalIncludeDirectories>
@@ -121,7 +119,6 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>..</AdditionalIncludeDirectories>
@@ -142,7 +139,6 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>..</AdditionalIncludeDirectories>
@@ -158,6 +154,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\lab_04_01_02\CCanvas.cpp" />
     <ClCompile Include="..\lab_04_01_02\CCircle.cpp" />
     <ClCompile Include="..\lab_04_01_02\CLineSegment.cpp" />
     <ClCompile Include="..\lab_04_01_02\CPoint.cpp" />
@@ -169,6 +166,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\lab_04_01_02\CCanvas.h" />
     <ClInclude Include="..\lab_04_01_02\CCircle.h" />
     <ClInclude Include="..\lab_04_01_02\CLineSegment.h" />
     <ClInclude Include="..\lab_04_01_02\CPoint.h" />
@@ -177,6 +175,8 @@
     <ClInclude Include="..\lab_04_01_02\CShape.h" />
     <ClInclude Include="..\lab_04_01_02\CSolidShape.h" />
     <ClInclude Include="..\lab_04_01_02\CTriangle.h" />
+    <ClInclude Include="..\lab_04_01_02\ICanvas.h" />
+    <ClInclude Include="..\lab_04_01_02\ICanvasDrawable.h" />
     <ClInclude Include="..\lab_04_01_02\IShape.h" />
     <ClInclude Include="..\lab_04_01_02\ISolidShape.h" />
   </ItemGroup>
