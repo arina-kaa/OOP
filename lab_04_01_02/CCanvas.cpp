@@ -34,7 +34,7 @@ void CCanvas::DrawFillPoligon(std::vector<CPoint> const& points, uint32_t const&
 void CCanvas::DrawFillCircle(CPoint const& centerPoint, double const& radius, uint32_t const& fillColor, uint32_t const& outlineColor) const
 {
 	sf::CircleShape circle;
-	circle.setPosition(centerPoint.x(), centerPoint.y());
+	circle.setPosition(centerPoint.x() - radius, centerPoint.y() - radius);
 	circle.setRadius(radius);
 	circle.setFillColor(GetRGB(fillColor));
 	circle.setOutlineColor(GetRGB(outlineColor));
