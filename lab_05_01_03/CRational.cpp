@@ -101,7 +101,7 @@ CRational const CRational::operator-() const
 CRational const CRational::operator+(const CRational& rational)
 {
 	int denominator = GetNOK(m_denominator, rational.m_denominator);
-	int numerator = m_numerator * (denominator / m_denominator) + rational..GetNumerator() * (denominator / rational.GetDenominator());
+	int numerator = m_numerator * (denominator / m_denominator) + rational.GetNumerator() * (denominator / rational.GetDenominator());
 	NormalizeRational(numerator, denominator);
 	return CRational(numerator, denominator);
 }
@@ -109,7 +109,7 @@ CRational const CRational::operator+(const CRational& rational)
 CRational const CRational::operator-(const CRational& rational)
 {
 	int denominator = GetNOK(m_denominator, rational.m_denominator);
-	int numerator = m_numerator * (denominator / m_denominator) - rational..GetNumerator() * (denominator / rational.GetDenominator());
+	int numerator = m_numerator * (denominator / m_denominator) - rational.GetNumerator() * (denominator / rational.GetDenominator());
 	NormalizeRational(numerator, denominator);
 	return CRational(numerator, denominator);
 }

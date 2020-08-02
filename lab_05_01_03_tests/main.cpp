@@ -211,3 +211,115 @@ SCENARIO("Operations -")
 		}
 	}
 }
+
+SCENARIO("Operations *")
+{
+	WHEN("CRational * CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r3(1, 2);
+			CRational r4(1, 6);
+			CRational res2 = r3 * r4;
+			CHECK(res2.GetNumerator() == 1);
+			CHECK(res2.GetDenominator() == 12);
+		}
+	}
+	WHEN("Int * CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r1(2, 5);
+			CRational res1 = 2 * r1;
+			CHECK(res1.GetNumerator() == 4);
+			CHECK(res1.GetDenominator() == 5);
+		}
+	}
+	WHEN("CRational * Int")
+	{
+		THEN("Ok")
+		{
+			CRational r1(2, 5);
+			CRational res1 = r1 * 2;
+			CHECK(res1.GetNumerator() == 4);
+			CHECK(res1.GetDenominator() == 5);
+		}
+	}
+	WHEN("CRational *= CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r3(1, 2);
+			CRational r4(1, 6);
+			CRational res2 = r3 *= r4;
+			CHECK(res2.GetNumerator() == 1);
+			CHECK(res2.GetDenominator() == 12);
+		}
+	}
+	WHEN("CRational *= Int")
+	{
+		THEN("Ok")
+		{
+			CRational r1(2, 5);
+			CRational res1 = r1 *= 2;
+			CHECK(res1.GetNumerator() == 4);
+			CHECK(res1.GetDenominator() == 5);
+		}
+	}
+}
+
+SCENARIO("Operations /")
+{
+	WHEN("CRational / CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r3(1, 2);
+			CRational r4(1, 6);
+			CRational res2 = r3 / r4;
+			CHECK(res2.GetNumerator() == 3);
+			CHECK(res2.GetDenominator() == 1);
+		}
+	}
+	WHEN("Int / CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r1(2, 5);
+			CRational res1 = 2 / r1;
+			CHECK(res1.GetNumerator() == 5);
+			CHECK(res1.GetDenominator() == 1);
+		}
+	}
+	WHEN("CRational / Int")
+	{
+		THEN("Ok")
+		{
+			CRational r1(2, 5);
+			CRational res1 = r1 / 2;
+			CHECK(res1.GetNumerator() == 1);
+			CHECK(res1.GetDenominator() == 5);
+		}
+	}
+	WHEN("CRational /= CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r3(1, 2);
+			CRational r4(1, 6);
+			CRational res2 = r3 /= r4;
+			CHECK(res2.GetNumerator() == 3);
+			CHECK(res2.GetDenominator() == 1);
+		}
+	}
+	WHEN("CRational /= Int")
+	{
+		THEN("Ok")
+		{
+			CRational r1(2, 5);
+			CRational res1 = r1 /= 2;
+			CHECK(res1.GetNumerator() == 1);
+			CHECK(res1.GetDenominator() == 5);
+		}
+	}
+}
