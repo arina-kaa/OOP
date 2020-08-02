@@ -106,14 +106,6 @@ SCENARIO("Operations +")
 	{
 		THEN("Ok")
 		{
-			CRational r1(2, 5);
-			CRational r2(2, 5);
-			CRational res1 = r1 + r2;
-			CHECK(res1.GetNumerator() == 4);
-			CHECK(res1.GetDenominator() == 5);
-		}
-		THEN("Ok")
-		{
 			CRational r3(1, 2);
 			CRational r4(1, 6);
 			CRational res2 = r3 + r4;
@@ -145,14 +137,6 @@ SCENARIO("Operations +")
 	{
 		THEN("Ok")
 		{
-			CRational r1(2, 5);
-			CRational r2(2, 5);
-			CRational res1 = r1 += r2;
-			CHECK(res1.GetNumerator() == 4);
-			CHECK(res1.GetDenominator() == 5);
-		}
-		THEN("Ok")
-		{
 			CRational r3(1, 2);
 			CRational r4(1, 6);
 			CRational res2 = r3 += r4;
@@ -176,14 +160,6 @@ SCENARIO("Operations -")
 {
 	WHEN("CRational - CRational")
 	{
-		THEN("Ok")
-		{
-			CRational r1(2, 5);
-			CRational r2(1, 5);
-			CRational res1 = r1 - r2;
-			CHECK(res1.GetNumerator() == 1);
-			CHECK(res1.GetDenominator() == 5);
-		}
 		THEN("Ok")
 		{
 			CRational r3(7, 10);
@@ -215,14 +191,6 @@ SCENARIO("Operations -")
 	}
 	WHEN("CRational -= CRational")
 	{
-		THEN("Ok")
-		{
-			CRational r1(2, 5);
-			CRational r2(1, 5);
-			CRational res1 = r1 -= r2;
-			CHECK(res1.GetNumerator() == 1);
-			CHECK(res1.GetDenominator() == 5);
-		}
 		THEN("Ok")
 		{
 			CRational r3(7, 10);

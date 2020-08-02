@@ -6,7 +6,6 @@ public:
 	CRational(int value);
 	CRational(int numerator, int denominator);
 
-
 	int GetNumerator()const;
 	int GetDenominator()const;
 	double ToDouble()const;
@@ -15,19 +14,20 @@ public:
 	CRational const operator-() const;
 
 	CRational const operator+(const CRational& rational);
+	CRational const operator-(const CRational& rational);
 
     CRational& operator+=(const CRational& rational);
 	CRational& operator+=(int number);
-
-	CRational const operator-(const CRational& rational);
-
 	CRational& operator-=(const CRational& rational);
 	CRational& operator-=(int number);
 
-	//CRational& operator+=(const CRational& rational);
-	//CRational& operator-=(const CRational& rational);
-	//CRational& operator*=(const CRational& rational);
-	//CRational& operator/=(const CRational& rational);
+	CRational const operator*(const CRational& rational);
+	CRational const operator/(const CRational& rational);
+
+	CRational& operator*=(const CRational& rational);
+	CRational& operator*=(int number);
+	CRational& operator/=(const CRational& rational);
+	CRational& operator/=(int number);
 
 private:
 	int m_numerator;
@@ -42,5 +42,12 @@ private:
 
 CRational const operator+(int lhs, CRational& rhs);
 CRational const operator+(CRational& lhs, int rhs);
+
 CRational const operator-(int lhs, CRational& rhs);
 CRational const operator-(CRational& lhs, int rhs);
+
+CRational const operator*(int lhs, CRational& rhs);
+CRational const operator*(CRational& lhs, int rhs);
+
+CRational const operator/(int lhs, CRational& rhs);
+CRational const operator/(CRational& lhs, int rhs);
