@@ -1,5 +1,6 @@
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include <catch2/catch.hpp>
+#include <limits>
 #include "../lab_05_01_03/CRational.h"
 
 constexpr int intMin = std::numeric_limits<int>::min();
@@ -75,7 +76,7 @@ SCENARIO("ToDouble()")
 	}
 }
 
-SCENARIO("Operations")
+SCENARIO("Unary Operations")
 {
 	WHEN("+CRational")
 	{
@@ -97,32 +98,148 @@ SCENARIO("Operations")
 			CHECK(res.GetDenominator() == 5);
 		}
 	}
+}
+
+SCENARIO("Operations +")
+{
 	WHEN("CRational + CRational")
 	{
 		THEN("Ok")
 		{
 			CRational r1(2, 5);
 			CRational r2(2, 5);
-			CRational res = r1 + r2;
-			CHECK(res.GetNumerator() == 4);
-			CHECK(res.GetDenominator() == 5);
+			CRational res1 = r1 + r2;
+			CHECK(res1.GetNumerator() == 4);
+			CHECK(res1.GetDenominator() == 5);
 		}
-		THEN("Fail")
+		THEN("Ok")
 		{
-			CRational r1(intMax, 5);
-			CRational r2(intMax, 5);
-			REQUIRE_THROWS([&]() {
-				CRational res = r1 + r2;
-			}());
+			CRational r3(1, 2);
+			CRational r4(1, 6);
+			CRational res2 = r3 + r4;
+			CHECK(res2.GetNumerator() == 2);
+			CHECK(res2.GetDenominator() == 3);
 		}
-		THEN("Fail")
+	}
+	WHEN("Int + CRational")
+	{
+		THEN("Ok")
 		{
-			CRational r1(2, intMax);
-			CRational r2(2, intMax);
-			REQUIRE_THROWS([&]() {
-				CRational res = r1 + r2;
-			}());
+			CRational r1(2, 5);
+			CRational res1 = 2 + r1;
+			CHECK(res1.GetNumerator() == 12);
+			CHECK(res1.GetDenominator() == 5);
+		}
+	}
+	WHEN("CRational + Int")
+	{
+		THEN("Ok")
+		{
+			CRational r1(2, 5);
+			CRational res1 = r1 + 2;
+			CHECK(res1.GetNumerator() == 12);
+			CHECK(res1.GetDenominator() == 5);
+		}
+	}
+	WHEN("CRational += CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r1(2, 5);
+			CRational r2(2, 5);
+			CRational res1 = r1 += r2;
+			CHECK(res1.GetNumerator() == 4);
+			CHECK(res1.GetDenominator() == 5);
+		}
+		THEN("Ok")
+		{
+			CRational r3(1, 2);
+			CRational r4(1, 6);
+			CRational res2 = r3 += r4;
+			CHECK(res2.GetNumerator() == 2);
+			CHECK(res2.GetDenominator() == 3);
+		}
+	}
+	WHEN("CRational += Int")
+	{
+		THEN("Ok")
+		{
+			CRational r1(2, 5);
+			CRational res1 = r1 += 2;
+			CHECK(res1.GetNumerator() == 12);
+			CHECK(res1.GetDenominator() == 5);
 		}
 	}
 }
 
+SCENARIO("Operations -")
+{
+	WHEN("CRational - CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r1(2, 5);
+			CRational r2(1, 5);
+			CRational res1 = r1 - r2;
+			CHECK(res1.GetNumerator() == 1);
+			CHECK(res1.GetDenominator() == 5);
+		}
+		THEN("Ok")
+		{
+			CRational r3(7, 10);
+			CRational r4(2, 10);
+			CRational res2 = r3 - r4;
+			CHECK(res2.GetNumerator() == 1);
+			CHECK(res2.GetDenominator() == 2);
+		}
+	}
+	WHEN("Int - CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r1(2, 5);
+			CRational res1 = 2 - r1;
+			CHECK(res1.GetNumerator() == 8);
+			CHECK(res1.GetDenominator() == 5);
+		}
+	}
+	WHEN("CRational - Int")
+	{
+		THEN("Ok")
+		{
+			CRational r1(8, 5);
+			CRational res1 = r1 - 1;
+			CHECK(res1.GetNumerator() == 3);
+			CHECK(res1.GetDenominator() == 5);
+		}
+	}
+	WHEN("CRational -= CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r1(2, 5);
+			CRational r2(1, 5);
+			CRational res1 = r1 -= r2;
+			CHECK(res1.GetNumerator() == 1);
+			CHECK(res1.GetDenominator() == 5);
+		}
+		THEN("Ok")
+		{
+			CRational r3(7, 10);
+			CRational r4(2, 10);
+			CRational res2 = r3 -= r4;
+			CHECK(res2.GetNumerator() == 1);
+			CHECK(res2.GetDenominator() == 2);
+		}
+	}
+	WHEN("CRational -= Int")
+	{
+		THEN("Ok")
+		{
+			CRational r1(8, 5);
+			CRational res1 = r1 -= 1;
+			CHECK(res1.GetNumerator() == 3);
+			CHECK(res1.GetDenominator() == 5);
+		}
+	}
+}

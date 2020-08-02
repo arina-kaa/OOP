@@ -1,13 +1,17 @@
 #include "CRational.h"
+#include <limits>
 #include <stdexcept>
+#include <algorithm>
 
 constexpr int intMin = std::numeric_limits<int>::min();
 constexpr int intMax = std::numeric_limits<int>::max();
 
-int CRational::GetGCD(int a, int b)
+int CRational::GetNOD(int a, int b)
 {
-	while (a != b) {
-		if (a > b) {
+	while (a != b)
+	{
+		if (a > b)
+		{
 			int tmp = a;
 			a = b;
 			b = tmp;
@@ -15,6 +19,32 @@ int CRational::GetGCD(int a, int b)
 		b = b - a;
 	}
 	return a;
+}
+
+int CRational::GetNOK(int a, int b)
+{
+	for (int i = std::max(std::abs(a), std::abs(b)); i > 0; i++)
+	{
+		if ((i % a == 0) && (i % b == 0))
+		{
+			return i;
+		}
+	}
+}
+
+void CRational::NormalizeRational(int& numerator, int& denominator)
+{
+	int nod = GetNOD(std::abs(numerator), std::abs(denominator));
+	if (nod > 1)
+	{
+		numerator /= nod;
+		denominator /= nod;
+	}
+}
+
+bool CRational::IsIntOverflow(const long number)
+{
+	return number < intMin || number > intMax;
 }
 
 CRational::CRational()
@@ -38,13 +68,7 @@ CRational::CRational(int numerator, int denominator)
 		numerator *= -1;
 		denominator = std::abs(denominator);
 	}
-	int gcd = GetGCD(std::abs(numerator), std::abs(denominator));
-	if (gcd > 1)
-	{
-		numerator /= gcd;
-		denominator /= gcd;
-	}
-
+	NormalizeRational(numerator, denominator);
 	m_numerator = numerator;
 	m_denominator = denominator;
 }
@@ -74,10 +98,64 @@ CRational const CRational::operator-() const
 	return CRational(-m_numerator, m_denominator);
 }
 
-CRational const CRational::operator+(const CRational& rational) const
+CRational const CRational::operator+(const CRational& rational)
 {
-	const int numerator = static_cast<int>(m_numerator) * rational.m_denominator + static_cast<int>(m_denominator) * rational.m_numerator;
-	const int denominator = static_cast<int>(m_denominator) * rational.m_denominator;
-	
-	return CRational(static_cast<int>(numerator), static_cast<int>(denominator));
+	int denominator = GetNOK(m_denominator, rational.m_denominator);
+	int numerator = m_numerator * (denominator / m_denominator) + rational.m_numerator * (denominator / rational.m_denominator);
+	NormalizeRational(numerator, denominator);
+	return CRational(numerator, denominator);
+}
+
+CRational& CRational::operator+=(const CRational& rational)
+{
+	CRational tmp = *this + rational;
+	m_numerator = tmp.GetNumerator();
+	m_denominator = tmp.GetDenominator();
+	return *this;
+}
+
+CRational& CRational::operator+=(int number)
+{
+	return *this += CRational(number);
+}
+
+CRational const CRational::operator-(const CRational& rational)
+{
+	int denominator = GetNOK(m_denominator, rational.m_denominator);
+	int numerator = m_numerator * (denominator / m_denominator) - rational.m_numerator * (denominator / rational.m_denominator);
+	NormalizeRational(numerator, denominator);
+	return CRational(numerator, denominator);
+}
+
+CRational& CRational::operator-=(const CRational& rational)
+{
+	CRational tmp = *this - rational;
+	m_numerator = tmp.GetNumerator();
+	m_denominator = tmp.GetDenominator();
+	return *this;
+}
+
+CRational& CRational::operator-=(int number)
+{
+	return *this -= CRational(number);
+}
+
+CRational const operator+(int lhs, CRational& rhs)
+{
+	return CRational(lhs) + rhs;
+}
+
+CRational const operator+(CRational& lhs, int rhs)
+{
+	return lhs + CRational(rhs);
+}
+
+CRational const operator-(int lhs, CRational& rhs)
+{
+	return CRational(lhs) - rhs;
+}
+
+CRational const operator-(CRational& lhs, int rhs)
+{
+	return lhs - CRational(rhs);
 }
