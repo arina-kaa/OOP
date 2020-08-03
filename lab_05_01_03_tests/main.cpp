@@ -323,3 +323,174 @@ SCENARIO("Operations /")
 		}
 	}
 }
+
+SCENARIO("Operations ==")
+{
+	WHEN("CRational == CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r1(1, 2);
+			CRational r2(1, 2);
+			CRational r3(1, 6);
+			CHECK(r1 == r2);
+			CHECK(!(r1 == r3));
+		}
+	}
+	WHEN("Int == CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r4(2);
+			CRational r5(1, 2);
+			CHECK(2 == r4);
+			CHECK(!(2 == r5));
+		}
+	}
+	WHEN("CRational == Int")
+	{
+		THEN("Ok")
+		{
+			CRational r6(2);
+			CRational r7(1, 2);
+			CHECK(r6 == 2);
+			CHECK(!(r7 == 2));
+		}
+	}
+}
+
+SCENARIO("Operations <")
+{
+	WHEN("CRational < CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r1(1, 6);
+			CRational r2(1, 2);
+			CHECK(r1 < r2);
+			CHECK(!(r2 < r1));
+		}
+	}
+	WHEN("Int < CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r3(1, 6);
+			CHECK(0 < r3);
+			CHECK(!(2 < r3));
+		}
+	}
+	WHEN("CRational < Int")
+	{
+		THEN("Ok")
+		{
+			CRational r4(1, 6);
+			CHECK(r4 < 2);
+			CHECK(!(r4 < 0));
+		}
+	}
+}
+
+SCENARIO("Operations <=")
+{
+	WHEN("CRational <= CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r1(1, 6);
+			CRational r2(1, 2);
+			CRational r3(3, 6);
+			CHECK(r1 <= r2);
+			CHECK(!(r2 <= r1));
+			CHECK(r2 <= r3);
+		}
+	}
+	WHEN("Int <= CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r4(6, 6);
+			CHECK(0 <= r4);
+			CHECK(1 <= r4);
+			CHECK(!(2 <= r4));
+		}
+	}
+	WHEN("CRational <= Int")
+	{
+		THEN("Ok")
+		{
+			CRational r5(6, 6);
+			CHECK(r5 <= 2);
+			CHECK(r5 <= 1);
+			CHECK(!(r5 <= 0));
+		}
+	}
+}
+
+SCENARIO("Operations >")
+{
+	WHEN("CRational > CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r1(1, 2);
+			CRational r2(1, 6);
+			CHECK(r1 > r2);
+			CHECK(!(r2 > r1));
+		}
+	}
+	WHEN("Int < CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r3(1, 6);
+			CHECK(1 > r3);
+			CHECK(!(0 > r3));
+		}
+	}
+	WHEN("CRational < Int")
+	{
+		THEN("Ok")
+		{
+			CRational r4(1, 6);
+			CHECK(r4 > 0);
+			CHECK(!(r4 > 1));
+		}
+	}
+}
+
+SCENARIO("Operations >=")
+{
+	WHEN("CRational >= CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r1(1, 2);
+			CRational r2(1, 6);
+			CRational r3(3, 6);
+			CHECK(r1 >= r2);
+			CHECK(!(r2 >= r1));
+			CHECK(r1 >= r3);
+		}
+	}
+	WHEN("Int >= CRational")
+	{
+		THEN("Ok")
+		{
+			CRational r4(6, 6);
+			CHECK(2 >= r4);
+			CHECK(1 >= r4);
+			CHECK(!(0 >= r4));
+		}
+	}
+	WHEN("CRational >= Int")
+	{
+		THEN("Ok")
+		{
+			CRational r5(6, 6);
+			CHECK(r5 >= 0);
+			CHECK(r5 >= 1);
+			CHECK(!(r5 >= 2));
+		}
+	}
+}

@@ -21,7 +21,7 @@ int CRational::GetNOD(int a, int b)
 	return a;
 }
 
-int CRational::GetNOK(int a, int b)
+int CRational::GetNOK(int a, int b) const
 {
 	for (int i = std::max(std::abs(a), std::abs(b)); i > 0; i++)
 	{
@@ -182,6 +182,40 @@ CRational& CRational::operator/=(int number)
 	return *this /= CRational(number);
 }
 
+bool const CRational::operator==(const CRational& rational) const
+{
+	return m_numerator == rational.GetNumerator() && m_denominator == rational.GetDenominator();
+}
+
+bool const CRational::operator!=(const CRational& rational) const
+{
+	return m_numerator != rational.GetNumerator() || m_denominator != rational.GetDenominator();
+}
+
+bool const CRational::operator<(const CRational& rational) const
+{
+	int denominator = GetNOK(m_denominator, rational.m_denominator);
+	return m_numerator * (denominator / m_denominator) < rational.GetNumerator() * (denominator / rational.GetDenominator());
+}
+
+bool const CRational::operator>(const CRational& rational) const
+{
+	int denominator = GetNOK(m_denominator, rational.m_denominator);
+	return m_numerator * (denominator / m_denominator) > rational.GetNumerator() * (denominator / rational.GetDenominator());
+}
+
+bool const CRational::operator<=(const CRational& rational) const
+{
+	int denominator = GetNOK(m_denominator, rational.m_denominator);
+	return m_numerator * (denominator / m_denominator) <= rational.GetNumerator() * (denominator / rational.GetDenominator());
+}
+
+bool const CRational::operator>=(const CRational& rational) const
+{
+	int denominator = GetNOK(m_denominator, rational.m_denominator);
+	return m_numerator * (denominator / m_denominator) >= rational.GetNumerator() * (denominator / rational.GetDenominator());
+}
+
 CRational const operator+(int lhs, CRational& rhs)
 {
 	return CRational(lhs) + rhs;
@@ -220,4 +254,64 @@ CRational const operator/(int lhs, CRational& rhs)
 CRational const operator/(CRational& lhs, int rhs)
 {
 	return lhs / CRational(rhs);
+}
+
+bool const operator==(int lhs, const CRational& rhs)
+{
+	return CRational(lhs) == rhs;
+}
+
+bool const operator==(const CRational& lhs, int rhs)
+{
+	return lhs == CRational(rhs);
+}
+
+bool const operator!=(int lhs, const CRational& rhs)
+{
+	return CRational(lhs) != rhs;
+}
+
+bool const operator!=(const CRational& lhs, int rhs)
+{
+	return lhs != CRational(rhs);
+}
+
+bool const operator<(int lhs, const CRational& rhs)
+{
+	return CRational(lhs) < rhs;
+}
+
+bool const operator<(const CRational& lhs, int rhs)
+{
+	return lhs < CRational(rhs);
+}
+
+bool const operator>(int lhs, const CRational& rhs)
+{
+	return CRational(lhs) > rhs;
+}
+
+bool const operator>(const CRational& lhs, int rhs)
+{
+	return lhs > CRational(rhs);
+}
+
+bool const operator<=(int lhs, const CRational& rhs)
+{
+	return CRational(lhs) <= rhs;
+}
+
+bool const operator<=(const CRational& lhs, int rhs)
+{
+	return lhs <= CRational(rhs);
+}
+
+bool const operator>=(int lhs, const CRational& rhs)
+{
+	return CRational(lhs) >= rhs;
+}
+
+bool const operator>=(const CRational& lhs, int rhs)
+{
+	return lhs >= CRational(rhs);
 }
