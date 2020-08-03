@@ -3,24 +3,18 @@
 #include <stdexcept>
 #include <algorithm>
 #include <cstdlib>
-#include <cmath>
 
 constexpr int intMin = std::numeric_limits<int>::min();
 constexpr int intMax = std::numeric_limits<int>::max();
 
 int CRational::GetNOD(int a, int b)
 {
-	while (a != b)
+	while (b != 0)
 	{
-		if (a > b)
-		{
-			int tmp = a;
-			a = b;
-			b = tmp;
-		}
-		b = b - a;
+		std::swap(a, b);
+		b = b % a;
 	}
-	return a;
+	return (a != 0) ? a : 1;
 }
 
 int CRational::GetNOK(int a, int b) const
@@ -88,7 +82,7 @@ std::pair<int, CRational> CRational::ToCompoundFraction() const
 	}
 	else
 	{
-		auto [quot, rem] = std::div(m_numerator, m_denominator);
+		const auto [quot, rem] = std::div(m_numerator, m_denominator);
 		return std::make_pair(quot, CRational(rem, m_denominator));
 	}
 }

@@ -113,7 +113,7 @@ SCENARIO("ToCompoundFraction()")
 			const auto [a, b] = CRational(3, 3).ToCompoundFraction();
 			REQUIRE(a == 1);
 			REQUIRE(b.GetNumerator() == 0);
-			REQUIRE(b.GetDenominator() == 3);
+			REQUIRE(b.GetDenominator() == 1);
 		}
 	}
 	WHEN("(int, int)")
@@ -123,7 +123,7 @@ SCENARIO("ToCompoundFraction()")
 			const auto [a, b] = CRational(-3, 3).ToCompoundFraction();
 			REQUIRE(a == -1);
 			REQUIRE(b.GetNumerator() == 0);
-			REQUIRE(b.GetDenominator() == 3);
+			REQUIRE(b.GetDenominator() == 1);
 		}
 	}
 	WHEN("(int, int)")
