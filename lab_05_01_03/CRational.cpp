@@ -2,6 +2,8 @@
 #include <limits>
 #include <stdexcept>
 #include <algorithm>
+#include <cstdlib>
+#include <cmath>
 
 constexpr int intMin = std::numeric_limits<int>::min();
 constexpr int intMax = std::numeric_limits<int>::max();
@@ -34,7 +36,7 @@ int CRational::GetNOK(int a, int b) const
 
 void CRational::NormalizeRational(int& numerator, int& denominator)
 {
-	int nod = GetNOD(std::abs(numerator), std::abs(denominator));
+	int nod = GetNOD(std::abs(numerator), denominator);
 	if (nod > 1)
 	{
 		numerator /= nod;
@@ -76,6 +78,19 @@ CRational::CRational(int numerator, int denominator)
 double CRational::ToDouble() const
 {
 	return static_cast<double>(m_numerator) / m_denominator;
+}
+
+std::pair<int, CRational> CRational::ToCompoundFraction() const
+{
+	if (std::abs(m_numerator) < m_denominator)
+	{
+		return std::make_pair(0, *this);
+	}
+	else
+	{
+		auto [quot, rem] = std::div(m_numerator, m_denominator);
+		return std::make_pair(quot, CRational(rem, m_denominator));
+	}
 }
 
 int CRational::GetNumerator() const

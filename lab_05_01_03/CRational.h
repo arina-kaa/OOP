@@ -1,4 +1,6 @@
 #pragma once
+#include <utility>
+
 class CRational
 {
 public:
@@ -6,9 +8,10 @@ public:
 	CRational(int value);
 	CRational(int numerator, int denominator);
 
-	int GetNumerator()const;
-	int GetDenominator()const;
-	double ToDouble()const;
+	int GetNumerator() const;
+	int GetDenominator() const;
+	double ToDouble() const;
+	std::pair<int, CRational> ToCompoundFraction() const;
 
 	CRational const operator+() const;
 	CRational const operator-() const;

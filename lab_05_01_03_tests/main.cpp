@@ -1,6 +1,8 @@
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include <catch2/catch.hpp>
 #include <limits>
+#include <utility>
+#include <cstdlib>
 #include "../lab_05_01_03/CRational.h"
 
 constexpr int intMin = std::numeric_limits<int>::min();
@@ -66,12 +68,82 @@ SCENARIO("Creating rational")
 
 SCENARIO("ToDouble()")
 {
-	WHEN("(int, int)")
+	WHEN("(int)")
 	{
-		CRational r(5, 10);
 		THEN("Ok")
 		{
-			CHECK(r.ToDouble() == 0.5);
+			CHECK(CRational(1).ToDouble() == 1);
+		}
+	}
+	WHEN("(int, int)")
+	{
+		THEN("Ok")
+		{
+			CHECK(CRational(5, 10).ToDouble() == 0.5);
+		}
+	}
+}
+
+SCENARIO("ToCompoundFraction()")
+{
+	WHEN("(int)")
+	{
+		THEN("Ok")
+		{
+			const auto [a, b] = CRational(1).ToCompoundFraction();
+			REQUIRE(a == 1);
+			REQUIRE(b.GetNumerator() == 0);
+			REQUIRE(b.GetDenominator() == 1);
+		}
+	}
+	WHEN("(int)")
+	{
+		THEN("Ok")
+		{
+			const auto [a, b] = CRational(-1).ToCompoundFraction();
+			REQUIRE(a == -1);
+			REQUIRE(b.GetNumerator() == 0);
+			REQUIRE(b.GetDenominator() == 1);
+		}
+	}
+	WHEN("(int, int)")
+	{
+		THEN("Ok")
+		{
+			const auto [a, b] = CRational(3, 3).ToCompoundFraction();
+			REQUIRE(a == 1);
+			REQUIRE(b.GetNumerator() == 0);
+			REQUIRE(b.GetDenominator() == 3);
+		}
+	}
+	WHEN("(int, int)")
+	{
+		THEN("Ok")
+		{
+			const auto [a, b] = CRational(-3, 3).ToCompoundFraction();
+			REQUIRE(a == -1);
+			REQUIRE(b.GetNumerator() == 0);
+			REQUIRE(b.GetDenominator() == 3);
+		}
+	}
+	WHEN("(int, int)")
+	{
+		THEN("Ok")
+		{
+			const auto [a, b] = CRational(4, 3).ToCompoundFraction();
+			REQUIRE(a == 1);
+			REQUIRE(b.GetNumerator() == 1);
+			REQUIRE(b.GetDenominator() == 3);
+		}
+	}
+	WHEN("(int, int)")
+	{
+		THEN("Ok")
+		{
+			const auto [a, b] = CRational(-4, 3).ToCompoundFraction();
+			REQUIRE(a == -1);
+			REQUIRE(b.GetNumerator() == -1);
+			REQUIRE(b.GetDenominator() == 3);
 		}
 	}
 }
