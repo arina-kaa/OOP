@@ -1,5 +1,6 @@
 #include "CMyString.h"
 #include <algorithm>
+#include <stdexcept>
 
 CMyString::CMyString()
 	: m_len(0)
@@ -56,8 +57,11 @@ char* CMyString::GetStringData() const
 
 CMyString CMyString::SubString(size_t start, size_t length) const
 {
-	const size_t startPos = std::min(m_len, start);
-	return CMyString(m_str + startPos, std::min(m_len - startPos, length));
+	if (start > m_len)
+	{
+		throw std::out_of_range("Out of range.");
+	}
+	return CMyString(m_str + start, std::min(m_len - start, length));
 }
 
 void CMyString::Clear()
@@ -106,6 +110,24 @@ bool const CMyString::operator==(const CMyString& other) const
 bool const CMyString::operator!=(const CMyString& other) const
 {
 	return !(*this == other);
+}
+
+const char& CMyString::operator[](size_t id) const
+{
+	if (id > m_len)
+	{
+		throw std::out_of_range("Out of range.");
+	}
+	return m_str[id];
+}
+
+char& CMyString::operator[](size_t id)
+{
+	if (id > m_len)
+	{
+		throw std::out_of_range("Out of range.");
+	}
+	return m_str[id];
 }
 
 CMyString const operator+(const std::string& lhs, const CMyString& rhs)

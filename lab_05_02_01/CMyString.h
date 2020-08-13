@@ -24,6 +24,8 @@ public:
 	CMyString& operator+=(const CMyString& other);
 	bool const operator==(const CMyString& other) const;
 	bool const operator!=(const CMyString& other) const;
+	const char& operator[](size_t id) const;
+	char& operator[](size_t id);
 
 private:
 	size_t m_len;
